@@ -9,8 +9,8 @@ using namespace testing;
 TEST(MatrixConstruction, DefaultConstructor)
 {
     Matrix<2, 3, int> mat;
-    for (size_t i = 0; i < 2; ++i) {
-        for (size_t j = 0; j < 3; ++j) {
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 3; ++j) {
             EXPECT_EQ(mat[i][j], 0);
         }
     }
@@ -34,8 +34,8 @@ TEST(MatrixConstruction, CopyConstructor)
     
     Matrix<2, 2, int> copy(original);
     
-    for (size_t i = 0; i < 2; ++i) {
-        for (size_t j = 0; j < 2; ++j) {
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
             EXPECT_EQ(copy[i][j], 5);
         }
     }
@@ -48,8 +48,8 @@ TEST(MatrixConstruction, MoveConstructor)
     
     Matrix<2, 2, int> moved(std::move(original));
     
-    for (size_t i = 0; i < 2; ++i) {
-        for (size_t j = 0; j < 2; ++j) {
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
             EXPECT_EQ(moved[i][j], 7);
         }
     }
@@ -76,8 +76,8 @@ TEST(MatrixOperations, Addition)
     
     auto result = mat1 + mat2;
     
-    for (size_t i = 0; i < 2; ++i) {
-        for (size_t j = 0; j < 2; ++j) {
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
             EXPECT_EQ(result[i][j], 3);
         }
     }
@@ -92,8 +92,8 @@ TEST(MatrixOperations, Subtraction)
     
     auto result = mat1 - mat2;
     
-    for (size_t i = 0; i < 2; ++i) {
-        for (size_t j = 0; j < 2; ++j) {
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
             EXPECT_EQ(result[i][j], 2);
         }
     }
@@ -106,14 +106,14 @@ TEST(MatrixOperations, Multiplication)
     
     // fill testing matrices
     int val = 1;
-    for (size_t i = 0; i < 2; ++i) {
-        for (size_t j = 0; j < 3; ++j) {
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 3; ++j) {
             mat1[i][j] = val++;
         }
     }
     
-    for (size_t i = 0; i < 3; ++i) {
-        for (size_t j = 0; j < 2; ++j) {
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 2; ++j) {
             mat2[i][j] = 1;
         }
     }
@@ -149,8 +149,8 @@ TEST(MatrixEdgeCases, SelfAssignment)
     
     mat = mat;
     
-    for (size_t i = 0; i < 2; ++i) {
-        for (size_t j = 0; j < 2; ++j) {
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
             EXPECT_EQ(mat[i][j], 10);
         }
     }

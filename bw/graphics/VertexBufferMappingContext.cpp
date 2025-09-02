@@ -18,8 +18,17 @@ namespace bw::low_level
     ////////////////////////////////////////////////////////////
 
     VertexBufferMappingContext::VertexBufferMappingContext(VertexBuffer& buffer) 
-        : _buffer(buffer), _isMapped(false), _data(nullptr) { }
+        : _buffer(&buffer), _isMapped(false), _data(nullptr) { }
     
+    ////////////////////////////////////////////////////////////
+
+    VertexBufferMappingContext::VertexBufferMappingContext(VertexBufferMappingContext&& moved) noexcept
+        : _buffer(moved._buffer), _data(moved._data), _isMapped(moved._isMapped)
+    {
+        moved._buffer = nullptr;
+        moved._data = nullptr;
+    }
+
 	////////////////////////////////////////////////////////////
 
     VertexBufferMappingContext::~VertexBufferMappingContext()
@@ -54,7 +63,7 @@ namespace bw::low_level
 
     void VertexBufferMappingContext::map(MapAccess access) 
     {
-        _data = static_cast<Vertex*>(glMapNamedBuffer(_buffer.getNativeHandle(), glAccessToEnum(access)));
+        _data = static_cast<Vertex*>(glMapNamedBuffer(_buffer->getNativeHandle(), glAccessToEnum(access)));
         _isMapped = true;
     }
 
@@ -62,7 +71,7 @@ namespace bw::low_level
 
     void VertexBufferMappingContext::unmap()
     {
-        glUnmapNamedBuffer(_buffer.getNativeHandle());
+        glUnmapNamedBuffer(_buffer->getNativeHandle());
         _isMapped = false;
         _data = nullptr;
     }

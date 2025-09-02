@@ -18,6 +18,12 @@ namespace bw::low_level
     public:
         VertexBufferMappingContext(VertexBuffer& buffer);
         ~VertexBufferMappingContext();
+
+        VertexBufferMappingContext(const VertexBufferMappingContext& other) = delete;
+        VertexBufferMappingContext(VertexBufferMappingContext&& moved) noexcept;
+
+        VertexBufferMappingContext& operator=(const VertexBufferMappingContext& other) = delete;
+        VertexBufferMappingContext& operator=(VertexBufferMappingContext&& moved) noexcept = delete;
     
         /// @brief Subscript operator for accessing elements
         /// @param index Index of the element to access
@@ -43,7 +49,7 @@ namespace bw::low_level
         /// @return True if buffer mapped, otherwise false
         bool isMapped() const;
     private:
-        VertexBuffer& _buffer;
+        VertexBuffer* _buffer;
         bool _isMapped;
         Vertex* _data;
     };

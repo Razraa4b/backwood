@@ -17,7 +17,7 @@ namespace bw
     /// @tparam C Number of columns (compile-time constant)
     /// @tparam T Data type of matrix elements
     ///
-    template<size_t R, size_t C, typename T>
+    template<int R, int C, typename T>
     class Matrix
     {
     public:
@@ -44,11 +44,11 @@ namespace bw
         explicit operator Matrix<R, C, U>() const;
 
         // Access operators
-        T& operator()(size_t row, size_t col);
-        const T& operator()(size_t row, size_t col) const;
+        T& operator()(int row, int col);
+        const T& operator()(int row, int col) const;
 
-        T* operator[](size_t row);
-        const T* operator[](size_t row) const;
+        T* operator[](int row);
+        const T* operator[](int row) const;
 
         bool operator==(const Matrix& other) const;
         bool operator!=(const Matrix& other) const;
@@ -59,7 +59,7 @@ namespace bw
         Matrix operator+(const Matrix& other) const;
         Matrix operator-(const Matrix& other) const;
 
-        template<size_t Arg_C>
+        template<int Arg_C>
         Matrix<R, Arg_C, T> operator*(const Matrix<C, Arg_C, T>& other) const;
 
         Matrix operator*(T scalar) const;
@@ -72,13 +72,13 @@ namespace bw
 
         void translate(Vec3<T> position) requires std::is_floating_point_v<T> && (R == 4) && (C == 4);
         
-        size_t rows() const { return R; }
-        size_t cols() const { return C; }
+        int rows() const { return R; }
+        int cols() const { return C; }
 
     private:
         std::unique_ptr<T[]> _data; // 1D array storing matrix data (row-major)
 
-        size_t _getIndex(size_t row, size_t col) const;
+        int _getIndex(int row, int col) const;
         void _copyFrom(const Matrix& other);
     };
 

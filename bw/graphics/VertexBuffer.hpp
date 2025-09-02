@@ -32,7 +32,7 @@ namespace bw::low_level
         /// @param usage The usage pattern for the buffer
         /// @param vertices Pointer to the vertex data array
         /// @param count Number of vertices in the array
-		VertexBuffer(Usage usage, Vertex* vertices, size_t count);
+		VertexBuffer(Usage usage, Vertex* vertices, int count);
         
         /// @brief Constructs an empty vertex buffer with specified usage
         /// @param usage The usage pattern for the buffer
@@ -41,7 +41,7 @@ namespace bw::low_level
         /// @brief Constructs a vertex buffer with specified usage and capacity
         /// @param usage The usage pattern for the buffer
         /// @param count Capacity of the buffer in vertices
-		VertexBuffer(Usage usage, size_t count);
+		VertexBuffer(Usage usage, int count);
         
         /// @brief Constructs a vertex buffer with specified usage and vertex data from vector
         /// @param usage The usage pattern for the buffer
@@ -68,22 +68,22 @@ namespace bw::low_level
         /// @param offset Starting offset for the update
         /// @param vertices Pointer to the new vertex data
         /// @param count Number of vertices to update
-		void update(size_t offset, Vertex* vertices, size_t count);
+		void update(int offset, Vertex* vertices, int count);
         
         /// @brief Updates a portion of the vertex buffer with new data from vector
         /// @param offset Starting offset for the update
         /// @param vertices Vector containing the new vertex data
-		void update(size_t offset, std::vector<Vertex> vertices);
+		void update(int offset, std::vector<Vertex> vertices);
 
         /// @brief Reserves memory for the specified number of vertices. If there is already enough memory for the vertices, the operation will be canceled.
         /// @param count Number of vertices to reserve memory for
-		void reserve(size_t count);
+		void reserve(int count);
 
         /// @brief Retrieves a range of vertex data from the buffer
         /// @param offset Starting offset of the data to retrieve
         /// @param count Number of vertices to retrieve
         /// @return Vector containing the requested vertex data
-		std::vector<Vertex> data(size_t offset, size_t count) const;
+		std::vector<Vertex> data(int offset, int count) const;
         
         /// @brief Retrieves all vertex data from the buffer
         /// @return Vector containing all vertex data
@@ -92,11 +92,11 @@ namespace bw::low_level
 
         /// @brief Gets the total capacity of the buffer
         /// @return The capacity of the buffer in vertices
-		size_t capacity() const;
+		int capacity() const;
         
         /// @brief Gets the current size of the buffer
         /// @return The current number of vertices in the buffer
-		size_t size() const;
+		int size() const;
 
 		// IResource interface implementation
         /// @brief Gets the native OpenGL handle for this buffer

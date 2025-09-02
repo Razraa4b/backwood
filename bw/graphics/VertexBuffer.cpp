@@ -16,13 +16,10 @@ namespace bw::low_level
 
 	////////////////////////////////////////////////////////////
 
-	VertexBuffer::VertexBuffer(Usage usage, Vertex* vertices, size_t count) : _handle(NoBuffer), _usage(usage)
+	VertexBuffer::VertexBuffer(Usage usage, Vertex* vertices, int count) : _handle(NoBuffer), _usage(usage)
 	{
-		glGenBuffers(1, &_handle);
-
-		glBindBuffer(GL_ARRAY_BUFFER, _handle);
-		glBufferData(GL_ARRAY_BUFFER, count * sizeof(Vertex), vertices, glUsageToEnum(usage));
-		glBindBuffer(GL_ARRAY_BUFFER, NoBuffer);
+		glCreateBuffers(1, &_handle);
+		glNamedBufferData(_handle, count * sizeof(Vertex), vertices, glUsageToEnum(usage));
 	}
 
 	////////////////////////////////////////////////////////////
@@ -31,7 +28,7 @@ namespace bw::low_level
 
 	////////////////////////////////////////////////////////////
 
-	VertexBuffer::VertexBuffer(Usage usage, size_t count) : VertexBuffer(usage, nullptr, count) { }
+	VertexBuffer::VertexBuffer(Usage usage, int count) : VertexBuffer(usage, nullptr, count) { }
 
 	////////////////////////////////////////////////////////////
 
@@ -44,11 +41,8 @@ namespace bw::low_level
         int size = other.size();
         std::vector<Vertex> vertices = other.data(0, size);
         
-		glGenBuffers(1, &_handle);
-        
-		glBindBuffer(GL_ARRAY_BUFFER, _handle);
-		glBufferData(GL_ARRAY_BUFFER, size * sizeof(Vertex), vertices.data(), glUsageToEnum(other._usage));
-		glBindBuffer(GL_ARRAY_BUFFER, NoBuffer);
+		glCreateBuffers(1, &_handle);
+		glNamedBufferData(_handle, size * sizeof(Vertex), vertices.data(), glUsageToEnum(other._usage));
     }
 
 	////////////////////////////////////////////////////////////
@@ -128,48 +122,38 @@ namespace bw::low_level
 
 	////////////////////////////////////////////////////////////
 
-	void VertexBuffer::update(size_t offset, Vertex* vertices, size_t count)
+	void VertexBuffer::update(int offset, Vertex* vertices, int count)
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, _handle);
-		
-		glBufferSubData(GL_ARRAY_BUFFER, offset, count * sizeof(Vertex), vertices);
-
-		glBindBuffer(GL_ARRAY_BUFFER, NoBuffer);
+		glNamedBufferSubData(_handle, offset * sizeof(Vertex), count * sizeof(Vertex), vertices);
 	}
 
 	////////////////////////////////////////////////////////////
 
-	void VertexBuffer::update(size_t offset, std::vector<Vertex> vertices)
+	void VertexBuffer::update(int offset, std::vector<Vertex> vertices)
 	{
 		update(offset, vertices.data(), vertices.size());
 	}
 
 	////////////////////////////////////////////////////////////
 
-	void VertexBuffer::reserve(size_t count)
+	void VertexBuffer::reserve(int count)
 	{
-		size_t requiredCapacity = count * sizeof(Vertex);
-		size_t currentCapacity = this->capacity();
+		int requiredCapacity = count * sizeof(Vertex);
+		int currentCapacity = this->capacity();
 
 		if (currentCapacity >= requiredCapacity) return;
 
 		std::vector<Vertex> oldData = data();
 
-		glBindBuffer(GL_ARRAY_BUFFER, _handle);
-		glBufferData(GL_ARRAY_BUFFER, requiredCapacity, oldData.data(), glUsageToEnum(_usage));
-		glBindBuffer(GL_ARRAY_BUFFER, NoBuffer);
+		glNamedBufferData(_handle, requiredCapacity, oldData.data(), glUsageToEnum(_usage));
 	}
 
 	////////////////////////////////////////////////////////////
 
-	std::vector<Vertex> VertexBuffer::data(size_t offset, size_t count) const
+	std::vector<Vertex> VertexBuffer::data(int offset, int count) const
 	{
 		std::vector<Vertex> data(count);
-
-		glBindBuffer(GL_ARRAY_BUFFER, _handle);
-		glGetBufferSubData(GL_ARRAY_BUFFER, offset * sizeof(Vertex), count * sizeof(Vertex), data.data());
-		glBindBuffer(GL_ARRAY_BUFFER, NoBuffer);
-		
+		glGetNamedBufferSubData(_handle, offset * sizeof(Vertex), count * sizeof(Vertex), data.data());
 		return data;
 	}
 
@@ -182,20 +166,16 @@ namespace bw::low_level
 
 	////////////////////////////////////////////////////////////
 
-	size_t VertexBuffer::capacity() const
+	int VertexBuffer::capacity() const
 	{
 		int size;
-
-		glBindBuffer(GL_ARRAY_BUFFER, _handle);
-		glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
-		glBindBuffer(GL_ARRAY_BUFFER, NoBuffer);
-		
+		glGetNamedBufferParameteriv(_handle, GL_BUFFER_SIZE, &size);
 		return size;
 	}
 
 	////////////////////////////////////////////////////////////
 
-	size_t VertexBuffer::size() const
+	int VertexBuffer::size() const
 	{
 		return capacity() / sizeof(Vertex);
 	}
