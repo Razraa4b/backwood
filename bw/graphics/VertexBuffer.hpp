@@ -75,7 +75,7 @@ namespace bw::low_level
         size_t size() const override;
         
         /// @brief Get the total capacity of the vertex buffer
-        /// @return Maximum number of elements the buffer can hold without reallocation
+        /// @return Maximum memory the buffer can hold without reallocation
         size_t capacity() const override;
 
         /// @brief Get the current usage type of the vertex buffer

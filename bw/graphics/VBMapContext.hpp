@@ -20,6 +20,8 @@ namespace bw::low_level
         VBMapContext(const VBMapContext& other) = delete;
         VBMapContext(VBMapContext&& moved);
 
+        ~VBMapContext();
+
         VBMapContext& operator=(const VBMapContext& other) = delete;
         VBMapContext& operator=(VBMapContext&& moved);
 
@@ -44,7 +46,7 @@ namespace bw::low_level
         /// @brief Safely get the vertex by the index. Only work with the enabled mapping
         /// @param index The vertex's index
         /// @return Correct buffer vertex or none
-        std::optional<Vertex&> tryGet(int index) override;
+        std::optional<Vertex*> tryGet(int index) override;
     private:
         VertexBuffer* _buffer;
         Vertex* _data;

@@ -28,6 +28,13 @@ namespace bw::low_level
         moved._buffer = nullptr;
         moved._data = nullptr;
     }
+
+	////////////////////////////////////////////////////////////
+       
+    VBMapContext::~VBMapContext()
+    {
+        unmap();
+    }
     
 	////////////////////////////////////////////////////////////
 
@@ -94,11 +101,11 @@ namespace bw::low_level
 
 	////////////////////////////////////////////////////////////
 
-    std::optional<Vertex&> VBMapContext::tryGet(int index)
+    std::optional<Vertex*> VBMapContext::tryGet(int index)
     {
         int n = _buffer->size();
-        if(index < 0 || index >= n) return;
+        if(index < 0 || index >= n) return std::nullopt;
 
-        return (*this)[index];
+        return _data + index;
     }
 }

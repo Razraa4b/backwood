@@ -17,7 +17,7 @@ namespace bw::low_level
     };
 
     ///
-    /// @interface IBufferMappingContext
+    /// @interface IBufferMapContext
     /// @brief Interface that provides access to functions for working with buffer map
     ///
     template<typename T>
@@ -44,6 +44,6 @@ namespace bw::low_level
         /// @brief Safely get the element by the index. Only work with the enabled mapping
         /// @param index The element's index
         /// @return Correct buffer element or none
-        virtual std::optional<T&> tryGet(int index) = 0;
+        virtual std::optional<T*> tryGet(int index) = 0;
     };
 }
