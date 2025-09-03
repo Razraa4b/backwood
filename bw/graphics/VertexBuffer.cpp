@@ -1,84 +1,76 @@
-#include <exception>
+#include <stdexcept>
 #include <glad/glad.h>
 #include "VertexBuffer.hpp"
 
 namespace bw::low_level
 {
-	GLenum glUsageToEnum(VertexBuffer::Usage usage)
-	{
-		switch (usage)
-		{
-			case VertexBuffer::Static:  return GL_STATIC_DRAW;
-			case VertexBuffer::Dynamic: return GL_DYNAMIC_DRAW;
-			default:                    return GL_STREAM_DRAW;
-		}
-	}
-
-	////////////////////////////////////////////////////////////
-
-	VertexBuffer::VertexBuffer(Usage usage, Vertex* vertices, int count) : _handle(NoBuffer), _usage(usage)
-	{
-		glCreateBuffers(1, &_handle);
-		glNamedBufferData(_handle, count * sizeof(Vertex), vertices, glUsageToEnum(usage));
-	}
-
-	////////////////////////////////////////////////////////////
-
-	VertexBuffer::VertexBuffer(Usage usage) : VertexBuffer(usage, nullptr, 0) { }
-
-	////////////////////////////////////////////////////////////
-
-	VertexBuffer::VertexBuffer(Usage usage, int count) : VertexBuffer(usage, nullptr, count) { }
-
-	////////////////////////////////////////////////////////////
-
-	VertexBuffer::VertexBuffer(Usage usage, std::vector<Vertex>& vertices) : VertexBuffer(usage, vertices.data(), vertices.size())  { }
-
-	////////////////////////////////////////////////////////////
-
-    VertexBuffer::VertexBuffer(const VertexBuffer& other) : _handle(NoBuffer), _usage(other._usage)
+    GLenum bufferUsageToGLEnum(BufferUsage usage)
     {
-        int size = other.size();
-        std::vector<Vertex> vertices = other.data(0, size);
-        
-		glCreateBuffers(1, &_handle);
-		glNamedBufferData(_handle, size * sizeof(Vertex), vertices.data(), glUsageToEnum(other._usage));
+        switch(usage)
+        {
+            case BufferUsage::Static:  return GL_STATIC_DRAW;
+            case BufferUsage::Dynamic: return GL_DYNAMIC_DRAW;
+            default:                   return GL_STREAM_DRAW;
+        }
     }
-
-	////////////////////////////////////////////////////////////
-
-    VertexBuffer::VertexBuffer(VertexBuffer&& moved) noexcept : _handle(moved._handle), _usage(moved._usage)
-    {
-        moved._handle = NoBuffer;
-    }
-
-	////////////////////////////////////////////////////////////
-
-	VertexBuffer::~VertexBuffer()
-	{
-		release();
-	}
     
 	////////////////////////////////////////////////////////////
 
+    VertexBuffer::VertexBuffer(BufferUsage usage) : _handle(NullVertexBuffer)
+    {
+        glCreateBuffers(1, &_handle);
+        glNamedBufferData(_handle, 0, nullptr, bufferUsageToGLEnum(usage));
+    }
+     
+	////////////////////////////////////////////////////////////
+
+    VertexBuffer::VertexBuffer(BufferUsage usage, std::span<Vertex> initializer) : _handle(NullVertexBuffer)
+    {
+        glCreateBuffers(1, &_handle);
+        glNamedBufferData(_handle, initializer.size() * sizeof(Vertex), 
+                          initializer.data(), bufferUsageToGLEnum(usage));
+    }
+    
+	////////////////////////////////////////////////////////////
+
+    VertexBuffer::VertexBuffer(BufferUsage usage, size_t reserveSize) : _handle(NullVertexBuffer)
+    {
+        glCreateBuffers(1, &_handle);
+        glNamedBufferData(_handle, reserveSize * sizeof(Vertex), nullptr, bufferUsageToGLEnum(usage));
+    }
+    
+	////////////////////////////////////////////////////////////
+
+    VertexBuffer::VertexBuffer(const VertexBuffer& other) : _handle(NullVertexBuffer)
+    {
+        glCreateBuffers(1, &_handle);
+        reserve(other.size());
+        other.copyTo(*this);
+    }
+    
+	////////////////////////////////////////////////////////////
+
+    VertexBuffer::VertexBuffer(VertexBuffer&& moved) noexcept : _handle(NullVertexBuffer)
+    {
+        _handle = std::move(moved._handle);
+        moved._handle = NullVertexBuffer;
+    }
+    
+	////////////////////////////////////////////////////////////
+    
+    VertexBuffer::~VertexBuffer()
+    {
+        release();
+    }
+
+	////////////////////////////////////////////////////////////
+    
     VertexBuffer& VertexBuffer::operator=(const VertexBuffer& other)
     {
-        if(this != &other)
+        if(*this != other)
         {
-            release();
-
-            int size = other.size();
-            std::vector<Vertex> vertices = other.data(0, size);
-        
-            if(size < vertices.size())
-            {
-                size = vertices.size();
-                this->reserve(vertices.size());
-            }
-
-		    this->update(0, vertices);
+            other.copyTo(*this);
         }
-
         return *this;
     }
 
@@ -86,34 +78,24 @@ namespace bw::low_level
 
     VertexBuffer& VertexBuffer::operator=(VertexBuffer&& moved) noexcept
     {
-        if(this != &moved)
+        if(*this != moved)
         {
             release();
 
             _handle = std::move(moved._handle);
-            _usage = std::move(moved._usage);
-
-            moved._handle = NoBuffer;
+            moved._handle = NullVertexBuffer;   
         }
-
         return *this;
     }
-	
-	////////////////////////////////////////////////////////////
-
-	Vertex VertexBuffer::operator[](int index) const
-	{
-		return data(index, 1)[0];
-	}
 
 	////////////////////////////////////////////////////////////
-
+    
     bool VertexBuffer::operator==(const VertexBuffer& other) const
     {
-        return this->_handle == other._handle;
+        return _handle == other._handle;
     }
-    
-	////////////////////////////////////////////////////////////
+	
+    ////////////////////////////////////////////////////////////
 
     bool VertexBuffer::operator!=(const VertexBuffer& other) const
     {
@@ -121,77 +103,111 @@ namespace bw::low_level
     }
 
 	////////////////////////////////////////////////////////////
+        
+    void VertexBuffer::reserve(size_t size)
+    {
+        if (size <= capacity() / sizeof(Vertex)) return;
 
-	void VertexBuffer::update(int offset, Vertex* vertices, int count)
-	{
-		glNamedBufferSubData(_handle, offset * sizeof(Vertex), count * sizeof(Vertex), vertices);
-	}
+        std::vector<Vertex> oldData { data() };
+        glNamedBufferData(_handle, size * sizeof(Vertex), oldData.data(), bufferUsageToGLEnum(getUsage()));
+    }
+    
+	////////////////////////////////////////////////////////////
+
+    void VertexBuffer::update(size_t offset, std::span<Vertex> data)
+    {
+        glNamedBufferSubData(_handle, offset  * sizeof(Vertex), data.size()  * sizeof(Vertex), data.data());
+    }
+
+	////////////////////////////////////////////////////////////
+    
+    void VertexBuffer::update(std::span<Vertex> data)
+    {
+        update(0, data);
+    }
+
+	////////////////////////////////////////////////////////////
+    
+    void VertexBuffer::copyTo(IBufferStorage<Vertex>& buffer) const
+    {
+        if (auto* vertexBuffer = dynamic_cast<VertexBuffer*>(&buffer)) 
+        {
+            if (vertexBuffer->capacity() < capacity()) {
+                vertexBuffer->reserve(capacity() / sizeof(Vertex));
+            }
+            glCopyNamedBufferSubData(_handle, vertexBuffer->_handle, 0, 0, capacity());
+        }
+        else 
+        {
+            std::vector<Vertex> data = this->data();
+            buffer.update(data);
+        }
+    }
+
+	////////////////////////////////////////////////////////////
+    
+    std::vector<Vertex> VertexBuffer::data() const
+    {
+        return data(0, size());
+    }
 
 	////////////////////////////////////////////////////////////
 
-	void VertexBuffer::update(int offset, std::vector<Vertex> vertices)
-	{
-		update(offset, vertices.data(), vertices.size());
-	}
+    std::vector<Vertex> VertexBuffer::data(size_t offset, size_t size) const
+    {
+        std::vector<Vertex> container(size);
+        glGetNamedBufferSubData(_handle, offset  * sizeof(Vertex), size * sizeof(Vertex), container.data());
+        return container;
+    }
+    
+	////////////////////////////////////////////////////////////
+    
+    size_t VertexBuffer::size() const
+    {
+        return capacity() / sizeof(Vertex);
+    }
+    
+	////////////////////////////////////////////////////////////
+        
+    size_t VertexBuffer::capacity() const
+    {
+        GLint64 capacity;
+
+        glGetNamedBufferParameteri64v(_handle, GL_BUFFER_SIZE, &capacity);
+
+        return static_cast<size_t>(capacity);
+    }
 
 	////////////////////////////////////////////////////////////
 
-	void VertexBuffer::reserve(int count)
-	{
-		int requiredCapacity = count * sizeof(Vertex);
-		int currentCapacity = this->capacity();
+    BufferUsage VertexBuffer::getUsage() const
+    {
+        GLint usage;
 
-		if (currentCapacity >= requiredCapacity) return;
+        glGetNamedBufferParameteriv(_handle, GL_BUFFER_USAGE, &usage);
 
-		std::vector<Vertex> oldData = data();
-
-		glNamedBufferData(_handle, requiredCapacity, oldData.data(), glUsageToEnum(_usage));
-	}
-
+        switch(usage)
+        {
+            case GL_STATIC_DRAW:  return BufferUsage::Static;
+            case GL_DYNAMIC_DRAW: return BufferUsage::Dynamic;
+            default:              return BufferUsage::Stream;
+        }
+    }
+    
 	////////////////////////////////////////////////////////////
-
-	std::vector<Vertex> VertexBuffer::data(int offset, int count) const
-	{
-		std::vector<Vertex> data(count);
-		glGetNamedBufferSubData(_handle, offset * sizeof(Vertex), count * sizeof(Vertex), data.data());
-		return data;
-	}
-
-	////////////////////////////////////////////////////////////
-
-	std::vector<Vertex> VertexBuffer::data() const
-	{
-		return data(0, size());
-	}
-
-	////////////////////////////////////////////////////////////
-
-	int VertexBuffer::capacity() const
-	{
-		int size;
-		glGetNamedBufferParameteriv(_handle, GL_BUFFER_SIZE, &size);
-		return size;
-	}
-
-	////////////////////////////////////////////////////////////
-
-	int VertexBuffer::size() const
-	{
-		return capacity() / sizeof(Vertex);
-	}
-
-	////////////////////////////////////////////////////////////
-
+        
 	unsigned int VertexBuffer::getNativeHandle() const
-	{
-		return _handle;
-	}
-
+    {
+        return _handle;
+    }
+    
 	////////////////////////////////////////////////////////////
-
-	void VertexBuffer::release() const
-	{
-		if (_handle != NoBuffer)
-			glDeleteBuffers(1, &_handle);
-	}
+		
+    void VertexBuffer::release() const
+    {
+        if(_handle != NullVertexBuffer)
+        {
+            glDeleteBuffers(1, &_handle);
+        }
+    }
 }

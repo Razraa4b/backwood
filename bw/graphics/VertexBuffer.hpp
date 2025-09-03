@@ -1,112 +1,94 @@
 #pragma once
 
-#include <vector>
-#include "Vertex.hpp"
+#include "IBufferStorage.hpp"
 #include "IResource.hpp"
+#include "Vertex.hpp"
 
 namespace bw::low_level
 {
-    ///
-    /// @class VertexBuffer
-    /// @brief The class that wraps work with vertex buffers in the OpenGL API
-    /// @implements IResource<unsigned int>
     /// 
-	class VertexBuffer : public IResource<unsigned int>
-	{
-	public:
-        ///
-        /// @enum Usage
-		/// @brief The type of vertex buffer data usage
-		///
-        enum Usage
-		{
-			Static,  // Never or very rarely updated
-			Dynamic, // It updates quite often
-			Stream   // Almost every frame is updated
-		};
+    /// @class VertexBuffer
+    /// @brief Class that wraps the functionality of vertex buffers in the OpenGL API
+    /// @implements IBufferStorage<Vertex>, IResource<unsigned int>
+    ///
+    class VertexBuffer : public virtual IBufferStorage<Vertex>, 
+                         public virtual IResource<unsigned int>
+    {
+    public:
+        /// @brief Constant for a non-existent vertex buffer
+        static const unsigned int NullVertexBuffer = 0;
 
-		/// @brief The handle for a non-existent vertex buffer
-        static const unsigned int NoBuffer = 0;
-
-        /// @brief Constructs a vertex buffer with specified usage, vertex data and count
-        /// @param usage The usage pattern for the buffer
-        /// @param vertices Pointer to the vertex data array
-        /// @param count Number of vertices in the array
-		VertexBuffer(Usage usage, Vertex* vertices, int count);
+        /// @brief Initializes and creates an empty buffer with no memory
+        /// @param usage Buffer usage type
+        VertexBuffer(BufferUsage usage);
         
-        /// @brief Constructs an empty vertex buffer with specified usage
-        /// @param usage The usage pattern for the buffer
-		VertexBuffer(Usage usage);
+        /// @brief Initializes and creates a buffer, and then fills it with the data
+        /// @param usage Buffer usage type
+        /// @param initializer Initialization data
+        VertexBuffer(BufferUsage usage, std::span<Vertex> initializer);
         
-        /// @brief Constructs a vertex buffer with specified usage and capacity
-        /// @param usage The usage pattern for the buffer
-        /// @param count Capacity of the buffer in vertices
-		VertexBuffer(Usage usage, int count);
+        /// @brief Initializes and creates a buffer, then reserves memory for future data
+        /// @param usage Buffer usage type
+        /// @param reserveSize Number of vertices for which memory will be allocated
+        VertexBuffer(BufferUsage usage, size_t reserveSize);
+
+        VertexBuffer(const VertexBuffer& other);
+        VertexBuffer(VertexBuffer&& moved) noexcept;
+
+        ~VertexBuffer();
         
-        /// @brief Constructs a vertex buffer with specified usage and vertex data from vector
-        /// @param usage The usage pattern for the buffer
-        /// @param vertices Vector containing vertex data
-		VertexBuffer(Usage usage, std::vector<Vertex>& vertices);
+        VertexBuffer& operator=(const VertexBuffer& other);
+        VertexBuffer& operator=(VertexBuffer&& moved) noexcept;
 
-		VertexBuffer(const VertexBuffer& other);
-		VertexBuffer(VertexBuffer&& moved) noexcept;
-
-		~VertexBuffer();
-
-		VertexBuffer& operator=(const VertexBuffer& other);
-		VertexBuffer& operator=(VertexBuffer&& moved) noexcept;
-
-        /// @brief Accesses a vertex at the specified index
-        /// @param index Index of the vertex to access
-        /// @return The vertex at the specified index
-		Vertex operator[](int index) const;
-        
         bool operator==(const VertexBuffer& other) const;
         bool operator!=(const VertexBuffer& other) const;
 
-        /// @brief Updates a portion of the vertex buffer with new data
-        /// @param offset Starting offset for the update
-        /// @param vertices Pointer to the new vertex data
-        /// @param count Number of vertices to update
-		void update(int offset, Vertex* vertices, int count);
+        /// @brief Reserve memory for the vertex buffer without initializing it and deleting old data
+        /// @param size Number of elements to reserve capacity for
+        void reserve(size_t size) override;
         
-        /// @brief Updates a portion of the vertex buffer with new data from vector
-        /// @param offset Starting offset for the update
-        /// @param vertices Vector containing the new vertex data
-		void update(int offset, std::vector<Vertex> vertices);
+        /// @brief Update vertex buffer contents with new data
+        /// @param data Span containing the new data to update the vertex buffer with
+        void update(std::span<Vertex> data) override;
 
-        /// @brief Reserves memory for the specified number of vertices. If there is already enough memory for the vertices, the operation will be canceled.
-        /// @param count Number of vertices to reserve memory for
-		void reserve(int count);
+        /// @brief Update vertex buffer contents with new data
+        /// @param offset Offset from the beginning of the previous data
+        /// @param data Span containing the new data to update the vertex buffer with
+        void update(size_t offset, std::span<Vertex> data);        
 
-        /// @brief Retrieves a range of vertex data from the buffer
-        /// @param offset Starting offset of the data to retrieve
-        /// @param count Number of vertices to retrieve
-        /// @return Vector containing the requested vertex data
-		std::vector<Vertex> data(int offset, int count) const;
+        /// @brief Copy contents of this vertex buffer to another buffer
+        /// @param buffer Destination vertex buffer to copy data to
+        void copyTo(IBufferStorage<Vertex>& buffer) const override;
+
+        /// @brief Get a copy of the vertex buffer data
+        /// @return Vector containing a copy of all vertex buffer data
+        std::vector<Vertex> data() const override;        
+
+        /// @brief Get a copy of the vertex buffer data
+        /// @return Vector containing a copy of the data of the specified range in the vertex buffer
+        /// @param offset Offset from the beginning of the data
+        /// @param size Count of the vertices
+        std::vector<Vertex> data(size_t offset, size_t size) const;
         
-        /// @brief Retrieves all vertex data from the buffer
-        /// @return Vector containing all vertex data
-        /// @errors
-		std::vector<Vertex> data() const;
-
-        /// @brief Gets the total capacity of the buffer
-        /// @return The capacity of the buffer in vertices
-		int capacity() const;
+        /// @brief Get the current number of elements in the vertex buffer
+        /// @return Size of the vertex buffer in number of elements
+        size_t size() const override;
         
-        /// @brief Gets the current size of the buffer
-        /// @return The current number of vertices in the buffer
-		int size() const;
+        /// @brief Get the total capacity of the vertex buffer
+        /// @return Maximum number of elements the buffer can hold without reallocation
+        size_t capacity() const override;
 
-		// IResource interface implementation
-        /// @brief Gets the native OpenGL handle for this buffer
-        /// @return The OpenGL buffer handle
-        unsigned int getNativeHandle() const override;
+        /// @brief Get the current usage type of the vertex buffer
+        /// @return Vertex buffer usage type
+        BufferUsage getUsage() const;
         
-        /// @brief Releases the OpenGL resources associated with this buffer
-		void release() const override;
-	private:
-		unsigned int _handle;
-		Usage _usage;
-	};
+		/// @brief Gets vertex buffer native handle
+		/// @return OpenGL vertex buffer handle
+		unsigned int getNativeHandle() const override;
+		
+        /// @brief Releases vertex buffer memory
+        void release() const override;
+    private:
+        unsigned int _handle;
+    };
 }

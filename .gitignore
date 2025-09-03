@@ -5,6 +5,14 @@ TODO.md
 deps/glfw
 deps/glad
 
+# IDE and editors
+.vs
+.vscode
+.idea
+.vim
+.nvim
+.cache
+
 # Build results
 [Bb]uild/
 [Dd]ebug/
@@ -34,3 +42,4 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
+
