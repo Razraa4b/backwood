@@ -4,7 +4,7 @@
 
 namespace bw::low_level
 {
-    GLenum bufferUsageToGLEnum(BufferUsage usage)
+    GLenum eb_bufferUsageToGLEnum(BufferUsage usage)
     {
         switch(usage)
         {
@@ -19,7 +19,7 @@ namespace bw::low_level
     ElementBuffer::ElementBuffer(BufferUsage usage) : _handle(NullElementBuffer)
     {
         glCreateBuffers(1, &_handle);
-        glNamedBufferData(_handle, 0, nullptr, bufferUsageToGLEnum(usage));
+        glNamedBufferData(_handle, 0, nullptr, eb_bufferUsageToGLEnum(usage));
     }
      
 	////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@ namespace bw::low_level
     {
         glCreateBuffers(1, &_handle);
         glNamedBufferData(_handle, initializer.size() * sizeof(size_t), 
-                          initializer.data(), bufferUsageToGLEnum(usage));
+                          initializer.data(), eb_bufferUsageToGLEnum(usage));
     }
     
 	////////////////////////////////////////////////////////////
@@ -36,7 +36,7 @@ namespace bw::low_level
     ElementBuffer::ElementBuffer(BufferUsage usage, size_t reserveSize) : _handle(NullElementBuffer)
     {
         glCreateBuffers(1, &_handle);
-        glNamedBufferData(_handle, reserveSize * sizeof(size_t), nullptr, bufferUsageToGLEnum(usage));
+        glNamedBufferData(_handle, reserveSize * sizeof(size_t), nullptr, eb_bufferUsageToGLEnum(usage));
     }
     
 	////////////////////////////////////////////////////////////
@@ -110,7 +110,7 @@ namespace bw::low_level
         if (size <= currentSize) return;
 
         std::vector<size_t> oldData { data() };
-        glNamedBufferData(_handle, size * sizeof(size_t), oldData.data(), bufferUsageToGLEnum(getUsage()));
+        glNamedBufferData(_handle, size * sizeof(size_t), oldData.data(), eb_bufferUsageToGLEnum(getUsage()));
     }
     
 	////////////////////////////////////////////////////////////
@@ -204,11 +204,12 @@ namespace bw::low_level
     
 	////////////////////////////////////////////////////////////
 		
-    void ElementBuffer::release() const
+    void ElementBuffer::release()
     {
         if(_handle != NullElementBuffer)
         {
             glDeleteBuffers(1, &_handle);
+            _handle = NullElementBuffer;
         }
     }
 }

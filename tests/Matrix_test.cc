@@ -16,6 +16,8 @@ TEST(MatrixConstruction, DefaultConstructor)
     }
 }
 
+////////////////////////////////////////////////////////////
+
 TEST(MatrixConstruction, InitializerConstructor)
 {
     std::vector<std::vector<int>> data = {{1, 2}, {3, 4}};
@@ -26,6 +28,8 @@ TEST(MatrixConstruction, InitializerConstructor)
     EXPECT_EQ(mat[1][0], 3);
     EXPECT_EQ(mat[1][1], 4);
 }
+
+////////////////////////////////////////////////////////////
 
 TEST(MatrixConstruction, CopyConstructor)
 {
@@ -41,6 +45,8 @@ TEST(MatrixConstruction, CopyConstructor)
     }
 }
 
+////////////////////////////////////////////////////////////
+
 TEST(MatrixConstruction, MoveConstructor)
 {
     Matrix<2, 2, int> original;
@@ -55,6 +61,8 @@ TEST(MatrixConstruction, MoveConstructor)
     }
 }
 
+////////////////////////////////////////////////////////////
+
 // Matrix functions tests
 TEST(MatrixFunctions, FillAndConvert)
 {
@@ -65,6 +73,8 @@ TEST(MatrixFunctions, FillAndConvert)
     std::array<float, 4> expected = {2.5f, 2.5f, 2.5f, 2.5f};
     EXPECT_THAT(arr, ElementsAreArray(expected));
 }
+
+////////////////////////////////////////////////////////////
 
 // Matrix operations tests
 TEST(MatrixOperations, Addition)
@@ -83,6 +93,8 @@ TEST(MatrixOperations, Addition)
     }
 }
 
+////////////////////////////////////////////////////////////
+
 TEST(MatrixOperations, Subtraction)
 {
     Matrix<2, 2, int> mat1;
@@ -98,6 +110,8 @@ TEST(MatrixOperations, Subtraction)
         }
     }
 }
+
+////////////////////////////////////////////////////////////
 
 TEST(MatrixOperations, Multiplication)
 {
@@ -126,6 +140,8 @@ TEST(MatrixOperations, Multiplication)
     EXPECT_EQ(result[1][1], 4+5+6);
 }
 
+////////////////////////////////////////////////////////////
+
 // Matrix edge cases tests
 TEST(MatrixEdgeCases, EmptyMatrix)
 {
@@ -134,6 +150,8 @@ TEST(MatrixEdgeCases, EmptyMatrix)
     EXPECT_TRUE(arr.empty());
 }
 
+////////////////////////////////////////////////////////////
+
 TEST(MatrixEdgeCases, LargeMatrix)
 {
     Matrix<10000, 10000, double> mat;
@@ -141,6 +159,8 @@ TEST(MatrixEdgeCases, LargeMatrix)
     
     EXPECT_DOUBLE_EQ(mat[9999][9999], 1.0);
 }
+
+////////////////////////////////////////////////////////////
 
 TEST(MatrixEdgeCases, SelfAssignment)
 {

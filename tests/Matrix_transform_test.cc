@@ -18,6 +18,8 @@ TEST(TranslateFunction, IdentityTranslation)
     EXPECT_TRUE(copy == actual);
 }
 
+////////////////////////////////////////////////////////////
+
 TEST(TranslateFunction, SimpleTranslation)
 {
     Matrix4x4<float> actual;
@@ -40,6 +42,8 @@ TEST(TranslateFunction, SimpleTranslation)
 
     EXPECT_TRUE(actual == expected);
 }
+
+////////////////////////////////////////////////////////////
 
 TEST(TranslateFunction, TranslateNonIdentityMatrix)
 {

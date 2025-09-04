@@ -53,7 +53,7 @@ namespace bw::low_level
         virtual std::vector<T> data() const = 0;
         
         ///
-        /// @brief Get the current number of elements in the buffer
+        /// @brief Get the current max number of elements buffer can store
         /// @return Size of the buffer in number of elements
         ///
         virtual size_t size() const = 0;

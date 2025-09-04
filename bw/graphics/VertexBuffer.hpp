@@ -70,7 +70,7 @@ namespace bw::low_level
         /// @param size Count of the vertices
         std::vector<Vertex> data(size_t offset, size_t size) const;
         
-        /// @brief Get the current number of elements in the vertex buffer
+        /// @brief Get the current max number of vertices vertex buffer can store
         /// @return Size of the vertex buffer in number of elements
         size_t size() const override;
         
@@ -87,7 +87,7 @@ namespace bw::low_level
 		unsigned int getNativeHandle() const override;
 		
         /// @brief Releases vertex buffer memory
-        void release() const override;
+        void release() override;
     private:
         unsigned int _handle;
     };

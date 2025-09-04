@@ -1,10 +1,11 @@
+#include <iostream>
 #include <stdexcept>
 #include <glad/glad.h>
 #include "VertexBuffer.hpp"
 
 namespace bw::low_level
 {
-    GLenum bufferUsageToGLEnum(BufferUsage usage)
+    GLenum vb_bufferUsageToGLEnum(BufferUsage usage)
     {
         switch(usage)
         {
@@ -19,7 +20,7 @@ namespace bw::low_level
     VertexBuffer::VertexBuffer(BufferUsage usage) : _handle(NullVertexBuffer)
     {
         glCreateBuffers(1, &_handle);
-        glNamedBufferData(_handle, 0, nullptr, bufferUsageToGLEnum(usage));
+        glNamedBufferData(_handle, 0, nullptr, vb_bufferUsageToGLEnum(usage));
     }
      
 	////////////////////////////////////////////////////////////
@@ -28,7 +29,7 @@ namespace bw::low_level
     {
         glCreateBuffers(1, &_handle);
         glNamedBufferData(_handle, initializer.size() * sizeof(Vertex), 
-                          initializer.data(), bufferUsageToGLEnum(usage));
+                          initializer.data(), vb_bufferUsageToGLEnum(usage));
     }
     
 	////////////////////////////////////////////////////////////
@@ -36,7 +37,7 @@ namespace bw::low_level
     VertexBuffer::VertexBuffer(BufferUsage usage, size_t reserveSize) : _handle(NullVertexBuffer)
     {
         glCreateBuffers(1, &_handle);
-        glNamedBufferData(_handle, reserveSize * sizeof(Vertex), nullptr, bufferUsageToGLEnum(usage));
+        glNamedBufferData(_handle, reserveSize * sizeof(Vertex), nullptr, vb_bufferUsageToGLEnum(usage));
     }
     
 	////////////////////////////////////////////////////////////
@@ -110,7 +111,7 @@ namespace bw::low_level
         if (size <= currentSize) return;
 
         std::vector<Vertex> oldData { data() };
-        glNamedBufferData(_handle, size * sizeof(Vertex), oldData.data(), bufferUsageToGLEnum(getUsage()));
+        glNamedBufferData(_handle, size * sizeof(Vertex), oldData.data(), vb_bufferUsageToGLEnum(getUsage()));
     }
     
 	////////////////////////////////////////////////////////////
@@ -205,12 +206,13 @@ namespace bw::low_level
     }
     
 	////////////////////////////////////////////////////////////
-		
-    void VertexBuffer::release() const
+	
+    void VertexBuffer::release()
     {
         if(_handle != NullVertexBuffer)
         {
             glDeleteBuffers(1, &_handle);
+            _handle = NullVertexBuffer;
         }
     }
 }

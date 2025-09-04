@@ -64,7 +64,7 @@ namespace bw::low_level
         /// @param size Count of the indices
         std::vector<size_t> data(size_t offset, size_t size) const;
         
-        /// @brief Get the current number of indices in the element buffer
+        /// @brief Get the current max number of indices buffer can store
         /// @return Size of the element buffer in number of indices
         size_t size() const override;
         
@@ -81,7 +81,7 @@ namespace bw::low_level
 		unsigned int getNativeHandle() const override;
 		
         /// @brief Releases element buffer memory
-        void release() const override;
+        void release() override;
     private:
         unsigned int _handle;
     };

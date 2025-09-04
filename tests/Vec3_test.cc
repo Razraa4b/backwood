@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include <math/Vec3.hpp>
 
 using namespace bw;

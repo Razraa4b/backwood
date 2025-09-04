@@ -19,6 +19,6 @@ namespace bw
 		virtual THandle getNativeHandle() const = 0;
 		
         /// @brief Releases resource data
-        virtual void release() const = 0;
+        virtual void release() = 0;
 	};
 }

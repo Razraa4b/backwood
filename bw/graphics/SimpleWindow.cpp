@@ -70,7 +70,7 @@ namespace bw
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
 			glfwTerminate();
-			_logger.fatal("Failed to create GLFW window");
+			_logger.fatal("Failed to load OpenGL functions");
 			return;
 		}
 		_logger.info("Successfully initialized glad and loaded OpenGL");

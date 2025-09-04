@@ -19,6 +19,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     Backwood
     GTest::gtest
     GTest::gmock
+    glfw
+    glad
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

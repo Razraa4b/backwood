@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include <math/Vec4.hpp>
 
 using namespace bw;
@@ -25,6 +24,8 @@ TEST(Vec4Construction, DefaultConstructor) {
     EXPECT_EQ(v.w, 0.0f);
 }
 
+////////////////////////////////////////////////////////////
+
 TEST(Vec4Construction, ComponentConstructor) {
     Vec4i v(1, 2, 3, 4);
     EXPECT_EQ(v.x, 1);
@@ -32,6 +33,8 @@ TEST(Vec4Construction, ComponentConstructor) {
     EXPECT_EQ(v.z, 3);
     EXPECT_EQ(v.w, 4);
 }
+
+////////////////////////////////////////////////////////////
 
 TEST(Vec4Construction, CopyConstructor) {
     Vec4d original(1.5, 2.5, 3.5, 4.5);
@@ -42,6 +45,8 @@ TEST(Vec4Construction, CopyConstructor) {
     EXPECT_DOUBLE_EQ(copy.w, 4.5);
 }
 
+////////////////////////////////////////////////////////////
+
 TEST(Vec4Construction, MoveConstructor) {
     Vec4i original(3, 4, 5, 6);
     Vec4i moved(std::move(original));
@@ -50,6 +55,8 @@ TEST(Vec4Construction, MoveConstructor) {
     EXPECT_EQ(moved.z, 5);
     EXPECT_EQ(moved.w, 6);
 }
+
+////////////////////////////////////////////////////////////
 
 TEST(Vec4Operators, AssignmentOperator) {
     Vec4f v1(1.1f, 2.2f, 3.3f, 4.4f);
@@ -61,6 +68,8 @@ TEST(Vec4Operators, AssignmentOperator) {
     EXPECT_FLOAT_EQ(v2.w, 4.4f);
 }
 
+////////////////////////////////////////////////////////////
+
 TEST(Vec4Operators, MoveAssignmentOperator) {
     Vec4i v1(5, 6, 7, 8);
     Vec4i v2;
@@ -71,6 +80,8 @@ TEST(Vec4Operators, MoveAssignmentOperator) {
     EXPECT_EQ(v2.w, 8);
 }
 
+////////////////////////////////////////////////////////////
+
 TEST(Vec4Operators, EqualityOperator) {
     Vec4i v1(1, 2, 3, 4);
     Vec4i v2(1, 2, 3, 4);
@@ -78,6 +89,8 @@ TEST(Vec4Operators, EqualityOperator) {
     EXPECT_TRUE(v1 == v2);
     EXPECT_FALSE(v1 == v3);
 }
+
+////////////////////////////////////////////////////////////
 
 TEST(Vec4Methods, ZeroStaticMethod) {
     Vec4i v = Vec4i::zero();
@@ -87,6 +100,8 @@ TEST(Vec4Methods, ZeroStaticMethod) {
     EXPECT_EQ(v.w, 0);
 }
 
+////////////////////////////////////////////////////////////
+
 TEST(Vec4Methods, OneStaticMethod) {
     Vec4f v = Vec4f::one();
     EXPECT_FLOAT_EQ(v.x, 1.0f);
@@ -95,11 +110,15 @@ TEST(Vec4Methods, OneStaticMethod) {
     EXPECT_FLOAT_EQ(v.w, 1.0f);
 }
 
+////////////////////////////////////////////////////////////
+
 TEST(Vec4Methods, LengthMethod) {
     Vec4f v(2.0f, 3.0f, 6.0f, 12.0f);
     float expected_length = std::sqrt(2.0f*2.0f + 3.0f*3.0f + 6.0f*6.0f + 12.0f*12.0f);
     EXPECT_FLOAT_EQ(v.length(), expected_length);
 }
+
+////////////////////////////////////////////////////////////
 
 TEST(Vec4Methods, NormalizedMethod) {
     Vec4f v(2.0f, 3.0f, 6.0f, 12.0f);
