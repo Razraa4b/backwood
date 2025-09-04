@@ -9,7 +9,7 @@ namespace bw::low_level
 
     ///
     /// @class VBMapContext
-    /// @brief 
+    /// @brief Class for working with mapping vertex buffers
     /// @implements IBufferMapContext<Vertex>
     ///
     class VBMapContext : public IBufferMapContext<Vertex>
@@ -17,12 +17,12 @@ namespace bw::low_level
     public:
         VBMapContext(VertexBuffer& buffer);
 
-        VBMapContext(const VBMapContext& other) = delete;
+        VBMapContext(const VBMapContext&) = delete;
         VBMapContext(VBMapContext&& moved);
 
         ~VBMapContext();
 
-        VBMapContext& operator=(const VBMapContext& other) = delete;
+        VBMapContext& operator=(const VBMapContext&) = delete;
         VBMapContext& operator=(VBMapContext&& moved);
 
         Vertex& operator[](int index);

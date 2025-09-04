@@ -1,6 +1,6 @@
 #include <glad/glad.h>
-#include "VBMapContext.hpp"
-#include "VertexBuffer.hpp"
+#include "EBMapContext.hpp"
+#include "ElementBuffer.hpp"
 
 namespace bw::low_level
 {
@@ -16,11 +16,11 @@ namespace bw::low_level
 
 	////////////////////////////////////////////////////////////
 
-    VBMapContext::VBMapContext(VertexBuffer& buffer) : _buffer(&buffer) { }
+    EBMapContext::EBMapContext(ElementBuffer& buffer) : _buffer(&buffer) { }
     
 	////////////////////////////////////////////////////////////
 
-    VBMapContext::VBMapContext(VBMapContext&& moved)
+    EBMapContext::EBMapContext(EBMapContext&& moved)
     {   
         this->_buffer = moved._buffer;
         this->_data = moved._data;
@@ -31,14 +31,14 @@ namespace bw::low_level
 
 	////////////////////////////////////////////////////////////
        
-    VBMapContext::~VBMapContext()
+    EBMapContext::~EBMapContext()
     {
         unmap();
     }
     
 	////////////////////////////////////////////////////////////
 
-    VBMapContext& VBMapContext::operator=(VBMapContext&& moved)
+    EBMapContext& EBMapContext::operator=(EBMapContext&& moved)
     {
         unmap();
 
@@ -53,29 +53,29 @@ namespace bw::low_level
     
 	////////////////////////////////////////////////////////////
 
-    Vertex& VBMapContext::operator[](int index)
+    size_t& EBMapContext::operator[](int index)
     {
         return *(_data + index);
     }
     
 	////////////////////////////////////////////////////////////
 
-    const Vertex& VBMapContext::operator[](int index) const
+    const size_t& EBMapContext::operator[](int index) const
     {
         return *(_data + index);
     }
     
 	////////////////////////////////////////////////////////////
 
-    void VBMapContext::map(MapAccess access)
+    void EBMapContext::map(MapAccess access)
     {
         if(!isMapped())
-            _data = static_cast<Vertex*>(glMapNamedBuffer(_buffer->getNativeHandle(), mapAccessToGLenum(access)));
+            _data = static_cast<size_t*>(glMapNamedBuffer(_buffer->getNativeHandle(), mapAccessToGLenum(access)));
     }
     
 	////////////////////////////////////////////////////////////
 
-    void VBMapContext::unmap()
+    void EBMapContext::unmap()
     {
         if(isMapped())
             glUnmapNamedBuffer(_buffer->getNativeHandle());
@@ -83,7 +83,7 @@ namespace bw::low_level
     
 	////////////////////////////////////////////////////////////
 
-    bool VBMapContext::isMapped() const
+    bool EBMapContext::isMapped() const
     {
         int mapped;
 
@@ -94,14 +94,14 @@ namespace bw::low_level
     
 	////////////////////////////////////////////////////////////
 
-    Vertex& VBMapContext::get(int index)
+    size_t& EBMapContext::get(int index)
     {
         return (*this)[index];
     }
 
 	////////////////////////////////////////////////////////////
 
-    std::optional<Vertex*> VBMapContext::tryGet(int index)
+    std::optional<size_t*> EBMapContext::tryGet(int index)
     {
         if(!_data) return std::nullopt;
 

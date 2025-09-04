@@ -52,7 +52,7 @@ namespace bw::low_level
 
     ElementBuffer::ElementBuffer(ElementBuffer&& moved) noexcept : _handle(NullElementBuffer)
     {
-        _handle = std::move(moved._handle);
+        _handle = moved._handle;
         moved._handle = NullElementBuffer;
     }
     
@@ -82,7 +82,7 @@ namespace bw::low_level
         {
             this->release();
 
-            _handle = std::move(moved._handle);
+            _handle = moved._handle;
             moved._handle = NullElementBuffer;   
         }
         return *this;

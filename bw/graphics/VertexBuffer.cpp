@@ -52,7 +52,7 @@ namespace bw::low_level
 
     VertexBuffer::VertexBuffer(VertexBuffer&& moved) noexcept : _handle(NullVertexBuffer)
     {
-        _handle = std::move(moved._handle);
+        _handle = moved._handle;
         moved._handle = NullVertexBuffer;
     }
     
@@ -82,7 +82,7 @@ namespace bw::low_level
         {
             this->release();
 
-            _handle = std::move(moved._handle);
+            _handle = moved._handle;
             moved._handle = NullVertexBuffer;   
         }
         return *this;
@@ -115,16 +115,16 @@ namespace bw::low_level
     
 	////////////////////////////////////////////////////////////
 
-    void VertexBuffer::update(size_t offset, std::span<Vertex> data)
+    void VertexBuffer::update(size_t offset, std::span<Vertex> vertices)
     {
-        glNamedBufferSubData(_handle, offset  * sizeof(Vertex), data.size()  * sizeof(Vertex), data.data());
+        glNamedBufferSubData(_handle, offset  * sizeof(Vertex), vertices.size()  * sizeof(Vertex), vertices.data());
     }
 
 	////////////////////////////////////////////////////////////
     
-    void VertexBuffer::update(std::span<Vertex> data)
+    void VertexBuffer::update(std::span<Vertex> vertices)
     {
-        update(0, data);
+        update(0, vertices);
     }
 
 	////////////////////////////////////////////////////////////
@@ -133,10 +133,12 @@ namespace bw::low_level
     {
         if (auto* vertexBuffer = dynamic_cast<VertexBuffer*>(&buffer)) 
         {
-            if (vertexBuffer->capacity() < capacity()) {
-                vertexBuffer->reserve(this->size());
+            size_t currentCapacity = this->capacity();
+
+            if (vertexBuffer->capacity() < currentCapacity) {
+                vertexBuffer->reserve(currentCapacity / sizeof(Vertex));
             }
-            glCopyNamedBufferSubData(_handle, vertexBuffer->_handle, 0, 0, capacity());
+            glCopyNamedBufferSubData(_handle, vertexBuffer->_handle, 0, 0, currentCapacity);
         }
         else 
         {

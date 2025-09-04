@@ -49,12 +49,12 @@ namespace bw::low_level
         
         /// @brief Update vertex buffer contents with new data
         /// @param data Span containing the new data to update the vertex buffer with
-        void update(std::span<Vertex> data) override;
+        void update(std::span<Vertex> vertices) override;
 
         /// @brief Update vertex buffer contents with new data
         /// @param offset Offset from the beginning of the previous data
         /// @param data Span containing the new data to update the vertex buffer with
-        void update(size_t offset, std::span<Vertex> data);        
+        void update(size_t offset, std::span<Vertex> vertices);        
 
         /// @brief Copy contents of this vertex buffer to another buffer
         /// @param buffer Destination vertex buffer to copy data to
