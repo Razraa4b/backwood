@@ -93,7 +93,7 @@ namespace bw::low_level
     
     bool VertexBuffer::operator==(const VertexBuffer& other) const
     {
-        return _handle == other._handle;
+        return this == &other;
     }
 	
     ////////////////////////////////////////////////////////////

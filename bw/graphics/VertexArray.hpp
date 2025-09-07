@@ -1,0 +1,70 @@
+#pragma once
+
+#include <vector>
+#include "IResource.hpp"
+#include "Vertex.hpp"
+
+namespace bw::low_level
+{
+    class VertexBuffer;
+
+    class VertexArray : public IResource<unsigned int>
+    {
+    public:
+        ///
+        /// @struct Range
+        /// @brief Structure representing the range of data that the vertex sees
+        ///
+        struct Range
+        {
+            /// @brief Start index
+            size_t start;
+            /// @brief Vertex count
+            size_t count;
+
+            Range(size_t start, size_t count) : start(start), count(count) { }
+            Range() : Range(0, 0) { }
+        };
+
+        /// @brief Constant for a non-existent vertex array
+        static const unsigned int NullVertexArray = 0;
+
+        VertexArray();
+        VertexArray(VertexBuffer& buffer, Range range);
+        VertexArray(VertexBuffer& buffer);
+
+        VertexArray(const VertexArray& other);
+        VertexArray(VertexArray&& moved) noexcept;
+
+        ~VertexArray();
+
+        VertexArray& operator=(const VertexArray& other);
+        VertexArray& operator=(VertexArray&& moved) noexcept;
+
+        bool operator==(const VertexArray& other);
+        bool operator!=(const VertexArray& other);
+
+        /// @brief Binds vertex array to vertex buffer
+        /// @param buffer Vertex buffer to bind
+        void bindTo(VertexBuffer& buffer);
+
+        void bindTo(VertexBuffer& buffer, Range range);
+
+        /// @brief Gets current binded vertex buffer
+        /// @return Current vertex buffer
+        VertexBuffer& getCurrentBuffer();
+
+        Range getRange() const;
+
+		/// @brief Gets vertex array native handle
+		/// @return OpenGL vertex array handle
+		unsigned int getNativeHandle() const override;
+		
+        /// @brief Deletes vertex array
+        void release() override;
+    private:
+        unsigned int _handle;
+        VertexBuffer* _buffer;
+        Range _range;
+    };
+}

@@ -1,10 +1,10 @@
-#include <glad/glad.h>
+ #include <glad/glad.h>
 #include "VBMapContext.hpp"
 #include "VertexBuffer.hpp"
 
 namespace bw::low_level
 {
-    GLenum mapAccessToGLenum(MapAccess access)
+    GLenum vb_mapAccessToGLenum(MapAccess access)
     {
         switch(access)
         {
@@ -70,7 +70,7 @@ namespace bw::low_level
     void VBMapContext::map(MapAccess access)
     {
         if(!isMapped())
-            _data = static_cast<Vertex*>(glMapNamedBuffer(_buffer->getNativeHandle(), mapAccessToGLenum(access)));
+            _data = static_cast<Vertex*>(glMapNamedBuffer(_buffer->getNativeHandle(), vb_mapAccessToGLenum(access)));
     }
     
 	////////////////////////////////////////////////////////////

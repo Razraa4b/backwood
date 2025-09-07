@@ -4,7 +4,7 @@
 
 namespace bw::low_level
 {
-    GLenum mapAccessToGLenum(MapAccess access)
+    GLenum eb_mapAccessToGLenum(MapAccess access)
     {
         switch(access)
         {
@@ -70,7 +70,7 @@ namespace bw::low_level
     void EBMapContext::map(MapAccess access)
     {
         if(!isMapped())
-            _data = static_cast<size_t*>(glMapNamedBuffer(_buffer->getNativeHandle(), mapAccessToGLenum(access)));
+            _data = static_cast<size_t*>(glMapNamedBuffer(_buffer->getNativeHandle(), eb_mapAccessToGLenum(access)));
     }
     
 	////////////////////////////////////////////////////////////

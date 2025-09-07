@@ -47,7 +47,7 @@ namespace bw::low_level
         this->reserve(other.size());
         other.copyTo(*this);
     }
-    
+                       
 	////////////////////////////////////////////////////////////
 
     ElementBuffer::ElementBuffer(ElementBuffer&& moved) noexcept : _handle(NullElementBuffer)
@@ -92,7 +92,7 @@ namespace bw::low_level
     
     bool ElementBuffer::operator==(const ElementBuffer& other) const
     {
-        return _handle == other._handle;
+        return this == &other;
     }
 	
     ////////////////////////////////////////////////////////////
