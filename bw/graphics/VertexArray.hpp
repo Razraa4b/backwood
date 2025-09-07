@@ -8,6 +8,11 @@ namespace bw::low_level
 {
     class VertexBuffer;
 
+    ///
+    /// @class VertexArray
+    /// @brief Class that wraps the functionality of vertex arrays in the OpenGL API
+    /// @implements IResource<unsigned int>
+    ///
     class VertexArray : public IResource<unsigned int>
     {
     public:
@@ -29,8 +34,16 @@ namespace bw::low_level
         /// @brief Constant for a non-existent vertex array
         static const unsigned int NullVertexArray = 0;
 
+        /// @brief Initializes and creates vertex array
         VertexArray();
+        
+        /// @brief Initializes and creates vertex array and binds vertex buffer with range
+        /// @param buffer Vertex buffer to bind
+        /// @param range Available range of vertices
         VertexArray(VertexBuffer& buffer, Range range);
+        
+        /// @brief Initializes and creates vertex array and binds vertex buffe
+        /// @param buffer Vertex buffer to bind
         VertexArray(VertexBuffer& buffer);
 
         VertexArray(const VertexArray& other);
@@ -48,12 +61,17 @@ namespace bw::low_level
         /// @param buffer Vertex buffer to bind
         void bindTo(VertexBuffer& buffer);
 
+        /// @brief Binds vertex array to vertex buffer with range
+        /// @param buffer Vertex buffer to bind
+        /// @param range Available range of vertices
         void bindTo(VertexBuffer& buffer, Range range);
 
         /// @brief Gets current binded vertex buffer
         /// @return Current vertex buffer
         VertexBuffer& getCurrentBuffer();
 
+        /// @brief Gets current vertex range
+        /// @return Current range
         Range getRange() const;
 
 		/// @brief Gets vertex array native handle
