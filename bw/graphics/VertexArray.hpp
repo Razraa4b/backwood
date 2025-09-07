@@ -1,3 +1,4 @@
+// VertexArray.hpp
 #pragma once
 
 #include <vector>
@@ -7,6 +8,7 @@
 namespace bw::low_level
 {
     class VertexBuffer;
+    class ElementBuffer;
 
     ///
     /// @class VertexArray
@@ -42,7 +44,7 @@ namespace bw::low_level
         /// @param range Available range of vertices
         VertexArray(VertexBuffer& buffer, Range range);
         
-        /// @brief Initializes and creates vertex array and binds vertex buffe
+        /// @brief Initializes and creates vertex array and binds vertex buffer
         /// @param buffer Vertex buffer to bind
         VertexArray(VertexBuffer& buffer);
 
@@ -66,23 +68,33 @@ namespace bw::low_level
         /// @param range Available range of vertices
         void bindTo(VertexBuffer& buffer, Range range);
 
+        /// @brief Binds element buffer to vertex array
+        /// @param elementBuffer Element buffer to bind
+        void bindTo(ElementBuffer& elementBuffer);
+
         /// @brief Gets current binded vertex buffer
-        /// @return Current vertex buffer
-        VertexBuffer& getCurrentBuffer();
+        /// @return Current vertex buffer (nullptr possible)
+        VertexBuffer* getCurrentVertexBuffer();
+
+        /// @brief Gets current binded element buffer
+        /// @return Current element buffer or nullptr if not bound (nullptr possible)
+        ElementBuffer* getCurrentElementBuffer();
 
         /// @brief Gets current vertex range
         /// @return Current range
         Range getRange() const;
 
-		/// @brief Gets vertex array native handle
-		/// @return OpenGL vertex array handle
-		unsigned int getNativeHandle() const override;
-		
+        /// @brief Gets vertex array native handle
+        /// @return OpenGL vertex array handle
+        unsigned int getNativeHandle() const override;
+        
         /// @brief Deletes vertex array
         void release() override;
+
     private:
         unsigned int _handle;
-        VertexBuffer* _buffer;
+        VertexBuffer* _vertexBuffer;
+        ElementBuffer* _elementBuffer;
         Range _range;
     };
 }

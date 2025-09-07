@@ -85,4 +85,6 @@ namespace bw::low_level
     private:
         unsigned int _handle;
     };
+
+    using IndexBuffer = ElementBuffer;
 }
