@@ -19,13 +19,13 @@ namespace bw
 	{
 	public:
 		/// @brief Construct window with title and rectangular area
-		/// @param title - SimpleWindow title/caption
-		/// @param rect - SimpleWindow position and size rectangle
+		/// @param title SimpleWindow title/caption
+		/// @param rect SimpleWindow position and size rectangle
 		SimpleWindow(std::string title, Recti rect);
 
 		/// @brief Construct window with title and size (centered position)
-		/// @param title - SimpleWindow title/caption
-		/// @param size - SimpleWindow dimensions
+		/// @param title SimpleWindow title/caption
+		/// @param size SimpleWindow dimensions
 		SimpleWindow(std::string title, Vec2i size);
 
 		/// @brief Construct window with default parameters
@@ -42,11 +42,11 @@ namespace bw
 		// IWindowBase interface implementation
         
         /// @brief Resize window to specified dimensions
-		/// @param size - New window size in pixels
+		/// @param size New window size in pixels
 		virtual void resize(Vec2i size) const override;
 		
         /// @brief Move window to specified position
-		/// @param position - New window position in screen coordinates
+		/// @param position New window position in screen coordinates
 		virtual void move(Vec2i position) const override;
 
 		/// @brief Make window visible
@@ -56,7 +56,7 @@ namespace bw
 		virtual void hide() const override;
 
 		/// @brief Clear window content with specified color
-		/// @param color - RGBA color to clear with
+		/// @param color RGBA color to clear with
 		virtual void clear(Vec4i color) override;
 		
         /// @brief Update window display (swap buffers, present render)

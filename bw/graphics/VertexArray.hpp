@@ -36,15 +36,15 @@ namespace bw::low_level
         /// @brief Constant for a non-existent vertex array
         static const unsigned int NullVertexArray = 0;
 
-        /// @brief Initializes and creates vertex array
+        /// @brief Creates and initializes vertex array
         VertexArray();
         
-        /// @brief Initializes and creates vertex array and binds vertex buffer with range
+        /// @brief Creates and initializes vertex array and binds vertex buffer with range
         /// @param buffer Vertex buffer to bind
         /// @param range Available range of vertices
         VertexArray(VertexBuffer& buffer, Range range);
         
-        /// @brief Initializes and creates vertex array and binds vertex buffer
+        /// @brief Creates and initializes vertex array and binds vertex buffer
         /// @param buffer Vertex buffer to bind
         VertexArray(VertexBuffer& buffer);
 

@@ -18,16 +18,16 @@ namespace bw::low_level
         /// @brief Constant for a non-existent vertex buffer
         static const unsigned int NullVertexBuffer = 0;
 
-        /// @brief Initializes and creates an empty buffer with no memory
+        /// @brief Creates and initializes an empty buffer with no memory
         /// @param usage Buffer usage type
         VertexBuffer(BufferUsage usage);
         
-        /// @brief Initializes and creates a buffer, and then fills it with the data
+        /// @brief Creates and initializes a buffer, and then fills it with the data
         /// @param usage Buffer usage type
         /// @param initializer Initialization data
         VertexBuffer(BufferUsage usage, std::span<Vertex> initializer);
         
-        /// @brief Initializes and creates a buffer, then reserves memory for future data
+        /// @brief Creates and initializes a buffer, then reserves memory for future data
         /// @param usage Buffer usage type
         /// @param reserveSize Number of vertices for which memory will be allocated
         VertexBuffer(BufferUsage usage, size_t reserveSize);

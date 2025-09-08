@@ -12,16 +12,16 @@ namespace bw::low_level
         /// @brief Constant for a non-existent element buffer
         static const unsigned int NullElementBuffer = 0;
 
-        /// @brief Initializes and creates an empty buffer with no memory
+        /// @brief Creates and initializes an empty buffer with no memory
         /// @param usage Buffer usage type
         ElementBuffer(BufferUsage usage);
         
-        /// @brief Initializes and creates a buffer, and then fills it with the data
+        /// @brief Creates and initializes a buffer, and then fills it with the data
         /// @param usage Buffer usage type
         /// @param initializer Initialization data
         ElementBuffer(BufferUsage usage, std::span<size_t> initializer);
         
-        /// @brief Initializes and creates a buffer, then reserves memory for future data
+        /// @brief Creates and initializes a buffer, then reserves memory for future data
         /// @param usage Buffer usage type
         /// @param reserveSize Number of indices for which memory will be allocated
         ElementBuffer(BufferUsage usage, size_t reserveSize);
