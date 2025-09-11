@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IReleasable.hpp"
 #include <optional>
 
 namespace bw
@@ -9,7 +10,7 @@ namespace bw
 	/// @brief Interface representing a graphical resource
 	///
 	template<typename THandle>
-	class IResource
+	class IResource : public IReleasable
 	{
 	public:
         virtual ~IResource() = default;

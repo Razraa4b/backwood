@@ -1,4 +1,3 @@
-// VertexArray.hpp
 #pragma once
 
 #include <vector>

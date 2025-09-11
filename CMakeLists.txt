@@ -10,8 +10,6 @@ set(SOURCE_PATH ${CMAKE_SOURCE_DIR}/src)
 set(TESTS_PATH ${CMAKE_SOURCE_DIR}/tests)
 set(DEPENDENCY_PATH ${CMAKE_SOURCE_DIR}/deps)
 
-
-
 include(FetchContent)
 
 FetchContent_Declare(

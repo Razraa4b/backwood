@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IReleasable.hpp"
 #include <string>
 
 namespace bw::low_level
@@ -8,7 +9,7 @@ namespace bw::low_level
     /// @class Shader
     /// @brief Class that wraps the functionality of shaders in the OpenGL API
     /// 
-    class Shader
+    class Shader : public IReleasable
     {
     public:
         ///
@@ -55,7 +56,7 @@ namespace bw::low_level
         Type getType() const;
         
         /// @brief Releases shader and his data
-        void release();
+        void release() override;
     private:
         unsigned int _handle;
 
