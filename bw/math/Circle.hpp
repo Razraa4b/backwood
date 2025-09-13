@@ -43,7 +43,7 @@ namespace bw
 		T area() const { return radius * radius * BW_PI; }
 	};
 
-	using Circlei = Circle<int>;
-	using Circled = Circle<double>;
-	using Circlef = Circle<float>;
+	using CircleI = Circle<int>;
+	using CircleD = Circle<double>;
+	using CircleF = Circle<float>;
 }

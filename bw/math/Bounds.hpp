@@ -35,7 +35,7 @@ namespace bw
 		}
 	};
 
-	using Boundsi = Bounds<int>;
-	using Boundsd = Bounds<double>;
-	using Boundsf = Bounds<float>;
+	using BoundsI = Bounds<int>;
+	using BoundsD = Bounds<double>;
+	using BoundsF = Bounds<float>;
 }

@@ -37,7 +37,7 @@ namespace bw
 		T area() const { return size.x * size.y; }
 	};
 
-	using Recti = Rect<int>;
-	using Rectd = Rect<double>;
-	using Rectf = Rect<float>;
+	using RectI = Rect<int>;
+	using RectD = Rect<double>;
+	using RectF = Rect<float>;
 }
