@@ -50,31 +50,30 @@ namespace bw
         T* operator[](int row);
         const T* operator[](int row) const;
 
-        bool operator==(const Matrix& other) const;
-        bool operator!=(const Matrix& other) const;
+        constexpr bool operator==(const Matrix& other) const;
+        constexpr bool operator!=(const Matrix& other) const;
 
         Matrix& operator=(const Matrix& other);
         Matrix& operator=(Matrix&& moved) noexcept = default;
 
-        Matrix operator+(const Matrix& other) const;
-        Matrix operator-(const Matrix& other) const;
+        constexpr Matrix operator+(const Matrix& other) const;
+        constexpr Matrix operator-(const Matrix& other) const;
 
         template<int Arg_C>
-        Matrix<R, Arg_C, T> operator*(const Matrix<C, Arg_C, T>& other) const;
+        constexpr Matrix<R, Arg_C, T> operator*(const Matrix<C, Arg_C, T>& other) const;
 
-        Matrix operator*(T scalar) const;
+        constexpr Matrix operator*(T scalar) const;
 
         /// @brief Convert matrix to 1D array (row-major order)
-        std::array<T, C* R> toLinearArray() const;
+        constexpr std::array<T, C* R> toLinearArray() const;
 
         /// @brief Fill matrix with specified value
-        void fill(T value);
+        constexpr void fill(T value);
 
-        void translate(Vec3<T> position) requires std::is_floating_point_v<T> && (R == 4) && (C == 4);
+        constexpr void translate(Vec3<T> position) requires std::is_floating_point_v<T> && (R == 4) && (C == 4);
         
-        int rows() const { return R; }
-        int cols() const { return C; }
-
+        constexpr int rows() const { return R; }
+        constexpr int cols() const { return C; }
     private:
         std::unique_ptr<T[]> _data; // 1D array storing matrix data (row-major)
 

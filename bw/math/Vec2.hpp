@@ -44,18 +44,18 @@ namespace bw
         Vec2& operator=(const Vec2& other);
         Vec2& operator=(Vec2&& moved) noexcept;
 
-        bool operator==(const Vec2& other) const;
-        bool operator!=(const Vec2& other) const;
+        constexpr bool operator==(const Vec2& other) const;
+        constexpr bool operator!=(const Vec2& other) const;
 
-        Vec2 operator+(const Vec2& other);
-        Vec2 operator-(const Vec2& other);
-        Vec2 operator*(const Vec2& other);
-        Vec2 operator/(const Vec2& other);
+        constexpr Vec2 operator+(const Vec2& other);
+        constexpr Vec2 operator-(const Vec2& other);
+        constexpr Vec2 operator*(const Vec2& other);
+        constexpr Vec2 operator/(const Vec2& other);
 
-        Vec2 operator+(const T& scalar);
-        Vec2 operator-(const T& scalar);
-        Vec2 operator*(const T& scalar);
-        Vec2 operator/(const T& scalar);
+        constexpr Vec2 operator+(const T& scalar);
+        constexpr Vec2 operator-(const T& scalar);
+        constexpr Vec2 operator*(const T& scalar);
+        constexpr Vec2 operator/(const T& scalar);
 
         /// @brief Returns zero-initialized Vector (0,0)
         static Vec2 zero();
@@ -64,10 +64,10 @@ namespace bw
         static Vec2 one();
 
         /// @brief Returns a Vector length
-        T length() const;
+        constexpr T length() const;
 
         /// @brief Returns normalized (unit) Vector
-        Vec2 normalized();
+        constexpr Vec2 normalized();
     };
     
     using Vec2i = Vec2<int>;

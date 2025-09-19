@@ -20,16 +20,16 @@ namespace bw
 		T right;
 		T bottom;
 		T left;
-		
+
 		Bounds(T top, T right, T bottom, T left) : top(top), right(right), bottom(bottom), left(left) { }
-	
-		bool operator==(const Bounds& other) const
+
+		constexpr bool operator==(const Bounds& other) const
 		{
 			return top == other.top && right == other.right &&
 				   bottom == other.bottom && left == other.left;
 		}
 
-		bool operator!=(const Bounds& other) const
+		constexpr bool operator!=(const Bounds& other) const
 		{
 			return !(*this == other);
 		}

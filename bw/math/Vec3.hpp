@@ -50,18 +50,18 @@ namespace bw
         Vec3& operator=(const Vec3& other);
         Vec3& operator=(Vec3&& moved);
 
-        bool operator==(const Vec3& other) const;
-        bool operator!=(const Vec3& other) const;
+        constexpr bool operator==(const Vec3& other) const;
+        constexpr bool operator!=(const Vec3& other) const;
 
-        Vec3 operator+(const Vec3& other) const;
-        Vec3 operator-(const Vec3& other) const;
-        Vec3 operator*(const Vec3& other) const;
-        Vec3 operator/(const Vec3& other) const;
+        constexpr Vec3 operator+(const Vec3& other) const;
+        constexpr Vec3 operator-(const Vec3& other) const;
+        constexpr Vec3 operator*(const Vec3& other) const;
+        constexpr Vec3 operator/(const Vec3& other) const;
 
-        Vec3 operator+(const T& scalar) const;
-        Vec3 operator-(const T& scalar) const;
-        Vec3 operator*(const T& scalar) const;
-        Vec3 operator/(const T& scalar) const;
+        constexpr Vec3 operator+(const T& scalar) const;
+        constexpr Vec3 operator-(const T& scalar) const;
+        constexpr Vec3 operator*(const T& scalar) const;
+        constexpr Vec3 operator/(const T& scalar) const;
 
         /// @brief Returns zero-initialized Vector (0,0,0)
         static Vec3 zero();
@@ -70,10 +70,10 @@ namespace bw
         static Vec3 one();
 
         /// @brief Returns a Vector length
-        T length() const;
+        constexpr T length() const;
 
         /// @brief Returns normalized (unit) Vector
-        Vec3 normalized() const;
+        constexpr Vec3 normalized() const;
     };
     
     using Vec3i = Vec3<int>;

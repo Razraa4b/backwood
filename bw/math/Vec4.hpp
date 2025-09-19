@@ -57,18 +57,18 @@ namespace bw
         Vec4& operator=(const Vec4& v);
         Vec4& operator=(Vec4&& v);
 
-        bool operator==(const Vec4& v) const;
-        bool operator!=(const Vec4& v) const;
+        constexpr bool operator==(const Vec4& v) const;
+        constexpr bool operator!=(const Vec4& v) const;
 
-        Vec4 operator+(const Vec4& v) const;
-        Vec4 operator-(const Vec4& v) const;
-        Vec4 operator*(const Vec4& v) const;
-        Vec4 operator/(const Vec4& v) const;
+        constexpr Vec4 operator+(const Vec4& v) const;
+        constexpr Vec4 operator-(const Vec4& v) const;
+        constexpr Vec4 operator*(const Vec4& v) const;
+        constexpr Vec4 operator/(const Vec4& v) const;
 
-        Vec4 operator+(const T& scalar) const;
-        Vec4 operator-(const T& scalar) const;
-        Vec4 operator*(const T& scalar) const;
-        Vec4 operator/(const T& scalar) const;
+        constexpr Vec4 operator+(const T& scalar) const;
+        constexpr Vec4 operator-(const T& scalar) const;
+        constexpr Vec4 operator*(const T& scalar) const;
+        constexpr Vec4 operator/(const T& scalar) const;
 
         /// @brief Returns zero-initialized Vector (0,0,0,0)
         static Vec4 zero();
@@ -77,10 +77,10 @@ namespace bw
         static Vec4 one();
 
         /// @brief Returns a Vector length
-        T length() const;
+        constexpr T length() const;
 
         /// @brief Returns normalized (unit) Vector
-        Vec4 normalized() const;
+        constexpr Vec4 normalized() const;
     };
     
     using Vec4i = Vec4<int>;

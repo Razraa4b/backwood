@@ -145,7 +145,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template<int R, int C, typename T>
-    bool Matrix<R, C, T>::operator==(const Matrix<R, C, T>& other) const
+    constexpr bool Matrix<R, C, T>::operator==(const Matrix<R, C, T>& other) const
     {
         for (int i = 0; i < R * C; ++i)
         {
@@ -158,7 +158,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template<int R, int C, typename T>
-    bool Matrix<R, C, T>::operator!=(const Matrix<R, C, T>& other) const
+    constexpr bool Matrix<R, C, T>::operator!=(const Matrix<R, C, T>& other) const
     {
         return !(*this == other);
     }
@@ -178,7 +178,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template<int R, int C, typename T>
-    Matrix<R, C, T> Matrix<R, C, T>::operator+(const Matrix& other) const
+    constexpr Matrix<R, C, T> Matrix<R, C, T>::operator+(const Matrix& other) const
     {
         Matrix<R, C, T> result;
 
@@ -193,7 +193,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template<int R, int C, typename T>
-    Matrix<R, C, T> Matrix<R, C, T>::operator-(const Matrix& other) const
+    constexpr Matrix<R, C, T> Matrix<R, C, T>::operator-(const Matrix& other) const
     {
         Matrix<R, C, T> result;
 
@@ -208,7 +208,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template<int R, int C, typename T>
-    Matrix<R, C, T> Matrix<R, C, T>::operator*(T scalar) const
+    constexpr Matrix<R, C, T> Matrix<R, C, T>::operator*(T scalar) const
     {
         Matrix<R, C, T> result;
 
@@ -224,7 +224,7 @@ namespace bw
 
     template<int R, int C, typename T>
     template<int Arg_C>
-    Matrix<R, Arg_C, T> Matrix<R, C, T>::operator*(const Matrix<C, Arg_C, T>& other) const
+    constexpr Matrix<R, Arg_C, T> Matrix<R, C, T>::operator*(const Matrix<C, Arg_C, T>& other) const
     {
         Matrix<R, Arg_C, T> result;
 
@@ -244,7 +244,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template<int R, int C, typename T>
-    void Matrix<R, C, T>::fill(T value)
+    constexpr void Matrix<R, C, T>::fill(T value)
     {
         for (int i = 0; i < R * C; ++i)
         {
@@ -255,7 +255,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template<int R, int C, typename T>
-    void Matrix<R, C, T>::translate(Vec3<T> position) requires std::is_floating_point_v<T> && (R == 4) && (C == 4)
+    constexpr void Matrix<R, C, T>::translate(Vec3<T> position) requires std::is_floating_point_v<T> && (R == 4) && (C == 4)
     {
         Matrix<4, 4, T> translation;
 
@@ -272,7 +272,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template<int R, int C, typename T>
-    std::array<T, C * R> Matrix<R, C, T>::toLinearArray() const
+    constexpr std::array<T, C * R> Matrix<R, C, T>::toLinearArray() const
     {
         std::array<T, R* C> arr;
         std::copy_n(_data.get(), R * C, arr.begin());

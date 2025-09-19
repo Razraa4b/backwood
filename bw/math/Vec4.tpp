@@ -48,7 +48,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template <typename T>
-    bool Vec4<T>::operator==(const Vec4<T>& other) const
+    constexpr bool Vec4<T>::operator==(const Vec4<T>& other) const
     {
         return (this->x == other.x && this->y == other.y && this->z == other.z && this->w == other.w);
     }
@@ -56,7 +56,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
     
     template <typename T>
-    bool Vec4<T>::operator!=(const Vec4<T>& other) const
+    constexpr bool Vec4<T>::operator!=(const Vec4<T>& other) const
     {
         return !(*this == other);
     }
@@ -64,7 +64,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template <typename T>
-    Vec4<T> Vec4<T>::operator+(const Vec4<T>& other) const
+    constexpr Vec4<T> Vec4<T>::operator+(const Vec4<T>& other) const
     {
         return Vec4(this->x + other.x, this->y + other.y, this->z + other.z, this->w + other.w);
     }
@@ -72,7 +72,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
     
     template <typename T>
-    Vec4<T> Vec4<T>::operator-(const Vec4<T>& other) const
+    constexpr Vec4<T> Vec4<T>::operator-(const Vec4<T>& other) const
     {
         return Vec4(this->x - other.x, this->y - other.y, this->z - other.z, this->w - other.w);
     }
@@ -80,7 +80,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
     
     template <typename T>
-    Vec4<T> Vec4<T>::operator*(const Vec4<T>& other) const
+    constexpr Vec4<T> Vec4<T>::operator*(const Vec4<T>& other) const
     {
         return Vec4(this->x * other.x, this->y * other.y, this->z * other.z, this->w * other.w);
     }
@@ -88,7 +88,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
     
     template <typename T>
-    Vec4<T> Vec4<T>::operator/(const Vec4<T>& other) const
+    constexpr Vec4<T> Vec4<T>::operator/(const Vec4<T>& other) const
     {
         return Vec4(this->x / other.x, this->y / other.y, this->z / other.z, this->w / other.w);
     }
@@ -96,7 +96,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template <typename T>
-    Vec4<T> Vec4<T>::operator+(const T& scalar) const
+    constexpr Vec4<T> Vec4<T>::operator+(const T& scalar) const
     {
         return Vec4(this->x + scalar, this->y + scalar, this->z + scalar, this->w + scalar);
     }
@@ -104,7 +104,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
     
     template <typename T>
-    Vec4<T> Vec4<T>::operator-(const T& scalar) const
+    constexpr Vec4<T> Vec4<T>::operator-(const T& scalar) const
     {
         return Vec4(this->x - scalar, this->y - scalar, this->z - scalar, this->w - scalar);
     }
@@ -112,7 +112,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
     
     template <typename T>
-    Vec4<T> Vec4<T>::operator*(const T& scalar) const
+    constexpr Vec4<T> Vec4<T>::operator*(const T& scalar) const
     {
         return Vec4(this->x * scalar, this->y * scalar, this->z * scalar, this->w * scalar);
     }
@@ -120,7 +120,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
     
     template <typename T>
-    Vec4<T> Vec4<T>::operator/(const T& scalar) const
+    constexpr Vec4<T> Vec4<T>::operator/(const T& scalar) const
     {
         return Vec4(this->x / scalar, this->y / scalar, this->z / scalar, this->w / scalar);
     }
@@ -144,7 +144,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template <typename T>
-    T Vec4<T>::length() const
+    constexpr T Vec4<T>::length() const
     {
         return std::sqrt(x * x + y * y + z * z + w * w);
     }
@@ -152,7 +152,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template <typename T>
-    Vec4<T> Vec4<T>::normalized() const
+    constexpr Vec4<T> Vec4<T>::normalized() const
     {
         T len = length();
         if (len == T{})

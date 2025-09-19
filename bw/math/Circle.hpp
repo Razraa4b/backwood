@@ -23,24 +23,24 @@ namespace bw
 		Circle(T xCenter, T yCenter, T radius) : Circle({ xCenter, yCenter }, radius) { }
 		Circle() : Circle({ T{}, T{} }, T{}) { }
 
-		bool operator==(const Circle& other) const
+		constexpr operator==(const Circle& other) const
 		{
 			return center == other.center && radius == other.radius;
 		}
 
-		bool operator!=(const Circle&  other) const
+		constexpr bool operator!=(const Circle&  other) const
 		{
 			return !(*this == other);
 		}
 
 		/// @brief Calculate diameter of the circle
-		T diameter() const { return radius * 2 };
+		constexpr T diameter() const { return radius * 2 };
 
 		/// @brief Calculate circumference of the circle
-		T circumference() const { return diameter() * BW_PI; }
+		constexpr T circumference() const { return diameter() * BW_PI; }
 
 		/// @brief Calculate area of the circle
-		T area() const { return radius * radius * BW_PI; }
+		constexpr T area() const { return radius * radius * BW_PI; }
 	};
 
 	using CircleI = Circle<int>;

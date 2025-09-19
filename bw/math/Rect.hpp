@@ -23,18 +23,18 @@ namespace bw
 		Rect(T xPos, T yPos, T width, T height) : Rect({ xPos, yPos }, { width, height }) { }
 		Rect() { }
 
-		bool operator==(const Rect& other) const
+		constepxr bool operator==(const Rect& other) const
 		{
 			return position == other.position && size == other.size;
 		}
 
-		bool operator!=(const Rect& other) const
+		constexpr bool operator!=(const Rect& other) const
 		{
 			return !(*this == other);
 		}
 
 		/// @brief Calculate area of the rectangle
-		T area() const { return size.x * size.y; }
+		constexpr T area() const { return size.x * size.y; }
 	};
 
 	using RectI = Rect<int>;

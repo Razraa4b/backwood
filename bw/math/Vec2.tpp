@@ -44,7 +44,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template <typename T>
-    bool Vec2<T>::operator==(const Vec2<T>& other) const
+    constexpr bool Vec2<T>::operator==(const Vec2<T>& other) const
     {
         return (this->x == other.x && this->y == other.y);
     }
@@ -52,7 +52,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
     
     template <typename T>
-    bool Vec2<T>::operator!=(const Vec2<T>& other) const
+    constexpr bool Vec2<T>::operator!=(const Vec2<T>& other) const
     {
         return !(*this == other);
     }
@@ -60,7 +60,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template <typename T>
-    Vec2<T> Vec2<T>::operator+(const Vec2<T>& other)
+    constexpr Vec2<T> Vec2<T>::operator+(const Vec2<T>& other)
     {
         return Vec2(this->x + other.x, this->y + other.y);
     }
@@ -68,7 +68,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
     
     template <typename T>
-    Vec2<T> Vec2<T>::operator-(const Vec2<T>& other)
+    constexpr Vec2<T> Vec2<T>::operator-(const Vec2<T>& other)
     {
         return Vec2(this->x - other.x, this->y - other.y);
     }
@@ -76,7 +76,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
     
     template <typename T>
-    Vec2<T> Vec2<T>::operator*(const Vec2<T>& other)
+    constexpr Vec2<T> Vec2<T>::operator*(const Vec2<T>& other)
     {
         return Vec2(this->x * other.x, this->y * other.y);
     }
@@ -84,7 +84,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
     
     template <typename T>
-    Vec2<T> Vec2<T>::operator/(const Vec2<T>& other)
+    constexpr Vec2<T> Vec2<T>::operator/(const Vec2<T>& other)
     {
         return Vec2(this->x / other.x, this->y / other.y);
     }
@@ -92,7 +92,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template <typename T>
-    Vec2<T> Vec2<T>::operator+(const T& scalar)
+    constexpr Vec2<T> Vec2<T>::operator+(const T& scalar)
     {
         return Vec2(this->x + scalar, this->y + scalar);
     }
@@ -100,7 +100,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
     
     template <typename T>
-    Vec2<T> Vec2<T>::operator-(const T& scalar)
+    constexpr Vec2<T> Vec2<T>::operator-(const T& scalar)
     {
         return Vec2(this->x - scalar, this->y - scalar);
     }
@@ -108,7 +108,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
     
     template <typename T>
-    Vec2<T> Vec2<T>::operator*(const T& scalar)
+    constexpr Vec2<T> Vec2<T>::operator*(const T& scalar)
     {
         return Vec2(this->x * scalar, this->y * scalar);
     }
@@ -116,7 +116,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
     
     template <typename T>
-    Vec2<T> Vec2<T>::operator/(const T& scalar)
+    constexpr Vec2<T> Vec2<T>::operator/(const T& scalar)
     {
         return Vec2(this->x / scalar, this->y / scalar);
     }
@@ -140,7 +140,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template <typename T>
-    T Vec2<T>::length() const
+    constexpr T Vec2<T>::length() const
     {
         return std::sqrt(x * x + y * y);
     }
@@ -148,7 +148,7 @@ namespace bw
     ////////////////////////////////////////////////////////////
 
     template <typename T>
-    Vec2<T> Vec2<T>::normalized()
+    constexpr Vec2<T> Vec2<T>::normalized()
     {
         T len = length();
         if (len == T{})
