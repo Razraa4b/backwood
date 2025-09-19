@@ -37,7 +37,7 @@ namespace bw
 
 	////////////////////////////////////////////////////////////
 
-	SimpleWindow::SimpleWindow(std::string title, Recti rect) : _impl(std::make_unique<WindowImpl>()), _logger(Logger::getInstance())
+	SimpleWindow::SimpleWindow(std::string title, RectI rect) : _impl(std::make_unique<WindowImpl>()), _logger(Logger::getInstance())
 	{
 		if (!glfwInit())
 		{
@@ -83,7 +83,7 @@ namespace bw
 
 	////////////////////////////////////////////////////////////
 
-	SimpleWindow::SimpleWindow(std::string title, Vec2i size) : SimpleWindow(title, Recti { { 0, 0 }, size }) { }
+	SimpleWindow::SimpleWindow(std::string title, Vec2i size) : SimpleWindow(title, RectI { { 0, 0 }, size }) { }
 
 	////////////////////////////////////////////////////////////
 

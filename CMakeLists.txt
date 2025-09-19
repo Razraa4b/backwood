@@ -12,23 +12,27 @@ set(DEPENDENCY_PATH ${CMAKE_SOURCE_DIR}/deps)
 
 include(FetchContent)
 
+# Install glfw repository
 FetchContent_Declare(
     glfw
     GIT_REPOSITORY https://github.com/glfw/glfw.git
     GIT_TAG 3.4
 )
 
+# Install glad repository
 FetchContent_Declare(
     glad
     GIT_REPOSITORY https://github.com/Dav1dde/glad.git
     GIT_TAG v0.1.36
 )
 
+# Settings for glfw
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 
+# Settings for glad
 set(GLAD_PROFILE "core" CACHE STRING "OpenGL profile")
 set(GLAD_API "gl=4.6" CACHE STRING "OpenGL API version")
 set(GLAD_GENERATOR "c" CACHE STRING "Generator to use")

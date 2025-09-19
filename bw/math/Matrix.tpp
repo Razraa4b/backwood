@@ -1,4 +1,5 @@
 #include "Matrix.hpp"
+#include <algorithm>
 #include <cstring>
 #include <stdexcept>
 

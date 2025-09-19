@@ -21,7 +21,7 @@ namespace bw
 		/// @brief Construct window with title and rectangular area
 		/// @param title SimpleWindow title/caption
 		/// @param rect SimpleWindow position and size rectangle
-		SimpleWindow(std::string title, Recti rect);
+		SimpleWindow(std::string title, RectI rect);
 
 		/// @brief Construct window with title and size (centered position)
 		/// @param title SimpleWindow title/caption
