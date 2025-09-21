@@ -12,6 +12,8 @@ namespace bw::low_level
     class Shader : public IReleasable
     {
     public:
+        friend class ShaderProgram;
+
         ///
         /// @enum Type
         /// @brief Shader type
