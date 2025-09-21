@@ -23,7 +23,7 @@ namespace bw
 		Rect(T xPos, T yPos, T width, T height) : Rect({ xPos, yPos }, { width, height }) { }
 		Rect() { }
 
-		constepxr bool operator==(const Rect& other) const
+		constexpr bool operator==(const Rect& other) const
 		{
 			return position == other.position && size == other.size;
 		}
