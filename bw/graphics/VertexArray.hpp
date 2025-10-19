@@ -67,17 +67,9 @@ namespace bw::low_level
         /// @param range Available range of vertices
         void bindTo(VertexBuffer& buffer, Range range);
 
-        /// @brief Binds element buffer to vertex array
-        /// @param elementBuffer Element buffer to bind
-        void bindTo(ElementBuffer& elementBuffer);
-
         /// @brief Gets current binded vertex buffer
         /// @return Current vertex buffer (nullptr possible)
         VertexBuffer* getCurrentVertexBuffer();
-
-        /// @brief Gets current binded element buffer
-        /// @return Current element buffer or nullptr if not bound (nullptr possible)
-        ElementBuffer* getCurrentElementBuffer();
 
         /// @brief Gets current vertex range
         /// @return Current range
@@ -93,7 +85,6 @@ namespace bw::low_level
     private:
         unsigned int _handle;
         VertexBuffer* _vertexBuffer;
-        ElementBuffer* _elementBuffer;
         Range _range;
     };
 }

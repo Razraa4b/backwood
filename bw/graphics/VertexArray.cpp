@@ -1,4 +1,3 @@
-// VertexArray.cpp
 #include <glad/glad.h>
 #include "VertexArray.hpp"
 #include "VertexBuffer.hpp"
@@ -6,14 +5,14 @@
 
 namespace bw::low_level
 {
-    VertexArray::VertexArray() : _handle(NullVertexArray), _vertexBuffer(nullptr), _elementBuffer(nullptr), _range({0, 0})
+    VertexArray::VertexArray() : _handle(NullVertexArray), _vertexBuffer(nullptr), _range({0, 0})
     {
         glCreateVertexArrays(1, &_handle);
     }
 
     ////////////////////////////////////////////////////////////
 
-    VertexArray::VertexArray(VertexBuffer& buffer, Range range) : _handle(NullVertexArray), _vertexBuffer(&buffer), _elementBuffer(nullptr), _range(range)
+    VertexArray::VertexArray(VertexBuffer& buffer, Range range) : _handle(NullVertexArray), _vertexBuffer(&buffer), _range(range)
     {
         glCreateVertexArrays(1, &_handle);
         bindTo(buffer, range);
@@ -26,23 +25,20 @@ namespace bw::low_level
     
     ////////////////////////////////////////////////////////////
 
-    VertexArray::VertexArray(const VertexArray& other) : _handle(NullVertexArray), _vertexBuffer(nullptr), _elementBuffer(nullptr), _range({0, 0})
+    VertexArray::VertexArray(const VertexArray& other) : _handle(NullVertexArray), _vertexBuffer(nullptr), _range({0, 0})
     {
         glCreateVertexArrays(1, &_handle);
-        if(other._vertexBuffer)
+        if(other._vertexBuffer) {
             this->bindTo(*other._vertexBuffer, other._range);
-        if (other._elementBuffer) {
-            this->bindTo(*other._elementBuffer);
         }
     }
 
     ////////////////////////////////////////////////////////////
 
-    VertexArray::VertexArray(VertexArray&& moved) noexcept : _handle(moved._handle), _vertexBuffer(moved._vertexBuffer), _elementBuffer(moved._elementBuffer), _range(moved._range)
+    VertexArray::VertexArray(VertexArray&& moved) noexcept : _handle(moved._handle), _vertexBuffer(moved._vertexBuffer), _range(moved._range)
     {
         moved._handle = NullVertexArray;
         moved._vertexBuffer = nullptr;
-        moved._elementBuffer = nullptr;
         moved._range = {0, 0};
     }
     
@@ -59,9 +55,6 @@ namespace bw::low_level
     {
         if (this != &other) {
             this->bindTo(*other._vertexBuffer, other._range);
-            if (other._elementBuffer) {
-                this->bindTo(*other._elementBuffer);
-            }
         }
         return *this;
     }
@@ -76,12 +69,10 @@ namespace bw::low_level
             
             _handle = moved._handle;
             _vertexBuffer = moved._vertexBuffer;
-            _elementBuffer = moved._elementBuffer;
             _range = moved._range;
             
             moved._handle = NullVertexArray;
             moved._vertexBuffer = nullptr;
-            moved._elementBuffer = nullptr;
             moved._range = {0, 0};
         }
         return *this;
@@ -139,24 +130,9 @@ namespace bw::low_level
 
     ////////////////////////////////////////////////////////////
 
-    void VertexArray::bindTo(ElementBuffer& elementBuffer)
-    {
-        _elementBuffer = &elementBuffer;
-        glVertexArrayElementBuffer(_handle, elementBuffer.getNativeHandle());
-    }
-
-    ////////////////////////////////////////////////////////////
-
     VertexBuffer* VertexArray::getCurrentVertexBuffer()
     {
         return _vertexBuffer;
-    }
-
-    ////////////////////////////////////////////////////////////
-
-    ElementBuffer* VertexArray::getCurrentElementBuffer()
-    {
-        return _elementBuffer;
     }
     
     ////////////////////////////////////////////////////////////
@@ -179,14 +155,10 @@ namespace bw::low_level
     {
         if (_handle != NullVertexArray)
         {
-            if(_elementBuffer) 
-                glVertexArrayElementBuffer(_handle, ElementBuffer::NullElementBuffer);
-
             glDeleteVertexArrays(1, &_handle);
             _handle = NullVertexArray;
         }
         _vertexBuffer = nullptr;
-        _elementBuffer = nullptr;
         _range = {0, 0};
     }
 }
