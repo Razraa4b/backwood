@@ -33,8 +33,13 @@ namespace bw
 			return !(*this == other);
 		}
 
+        /// @brief Calculate perimeter of the rectangle
+        /// @return Perimeter of rectangle
+        constexpr T perimeter() const { return size.x * 2 + size.y * 2; }
+
 		/// @brief Calculate area of the rectangle
-		constexpr T area() const { return size.x * size.y; }
+		/// @return Area of rectangle
+        constexpr T area() const { return size.x * size.y; }
 	};
 
 	using RectI = Rect<int>;

@@ -34,12 +34,15 @@ namespace bw
 		}
 
 		/// @brief Calculate diameter of the circle
+        /// @return Diameter of circle
 		constexpr T diameter() const { return radius * 2 };
 
 		/// @brief Calculate circumference of the circle
-		constexpr T circumference() const { return diameter() * BW_PI; }
+		/// @return Circumference of circle
+        constexpr T circumference() const { return diameter() * BW_PI; }
 
 		/// @brief Calculate area of the circle
+        /// @return Area of circle
 		constexpr T area() const { return radius * radius * BW_PI; }
 	};
 

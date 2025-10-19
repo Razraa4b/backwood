@@ -33,6 +33,29 @@ namespace bw
 		{
 			return !(*this == other);
 		}
+
+        constexpr Bounds operator+(const Bound& other) const
+        {
+            return Bounds(this->top + other.top, this->right + other.right,
+                          this->bottom + other.bottom, this->left + other.left);
+        }
+
+        constexpr Bounds operator-(const Bound& other) const
+        {
+            return Bounds(this->top - other.top, this->right - other.right,
+                          this->bottom - other.bottom, this->left - other.left);
+        }
+        constexpr Bounds operator*(const Bound& other) const
+        {
+            return Bounds(this->top * other.top, this->right * other.right,
+                          this->bottom * other.bottom, this->left * other.left);
+        }
+
+        constexpr Bounds operator/(const Bound& other) const
+        {
+            return Bounds(this->top / other.top, this->right / other.right,
+                          this->bottom / other.bottom, this->left / other.left);
+        }
 	};
 
 	using BoundsI = Bounds<int>;

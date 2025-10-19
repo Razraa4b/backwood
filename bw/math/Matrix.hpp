@@ -73,7 +73,7 @@ namespace bw
         constexpr void translate(Vec3<T> position) requires std::is_floating_point_v<T> && (R == 4) && (C == 4);
         
         constexpr int rows() const { return R; }
-        constexpr int cols() const { return C; }
+        constexpr int columns() const { return C; }
     private:
         std::unique_ptr<T[]> _data; // 1D array storing matrix data (row-major)
 

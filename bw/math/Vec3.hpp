@@ -22,17 +22,17 @@ namespace bw
     public:
         union 
         {
-            T x, r, s;
+            T x, r, s, width;
         };
 
         union 
         {
-            T y, g, t;
+            T y, g, t, height;
         };
 
         union 
         {
-            T z, b, p;
+            T z, b, p, depth;
         };
         
         Vec3(T x, T y, T z) : x(x), y(y), z(z) { }
