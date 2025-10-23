@@ -108,6 +108,13 @@ namespace bw::low_level
     {
         glLinkProgram(_handle);
     }
+       
+    ////////////////////////////////////////////////////////////
+
+    void ShaderProgram::use() const
+    {
+        glUseProgram(_handle);
+    }
 
     ////////////////////////////////////////////////////////////
 

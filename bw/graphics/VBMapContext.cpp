@@ -10,7 +10,7 @@ namespace bw::low_level
         {
             case MapAccess::ReadOnly:  return GL_READ_ONLY;
             case MapAccess::WriteOnly: return GL_WRITE_ONLY;
-            default:                   return GL_READ_WRITE;
+            default:                   return GL_NONE;
         }
     }
 

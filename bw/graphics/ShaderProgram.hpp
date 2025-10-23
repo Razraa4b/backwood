@@ -1,11 +1,10 @@
 #pragma once
 
+#include "Shader.hpp"
 #include "IReleasable.hpp"
 
 namespace bw::low_level
 {
-    class Shader;
-
     ///
     /// @class ShaderProgram
     /// @brief Class that wraps the functionality of programs in the OpenGL API
@@ -38,6 +37,9 @@ namespace bw::low_level
 
         /// @brief Links shader program
         void link();
+
+        /// @brief Uses shader program
+        void use() const;
 
         /// @brief Releases shader program and automatically detaches all shaders
         void release() override;
